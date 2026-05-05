@@ -70,6 +70,19 @@ export const EmptyList: Story = {
   },
 };
 
+export const Disabled: Story = {
+  args: {
+    id: 'disabled',
+    label: 'Disabled Airport',
+    value: '',
+    onChange: (code: string) => console.log('Selected:', code),
+    placeholder: 'Select airport (disabled)',
+    airports: sampleAirports,
+    icon: <PlaneIcon />,
+    disabled: true,
+  },
+};
+
 export const Interactive: Story = {
   render: (args) => {
     const [value, setValue] = useState(args.value);

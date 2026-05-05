@@ -100,6 +100,8 @@ export function FlightSearch({ onSearch }: FlightSearchProps) {
   };
 
   const isValid = from && to && dateRange.departure;
+  const isArrivalDisabled = !from;
+  const isDateDisabled = !from || !to;
 
   return (
     <>
@@ -118,20 +120,21 @@ export function FlightSearch({ onSearch }: FlightSearchProps) {
                 icon={<LocationIcon />}
               />
             </div>
-            <div className="flex-1">
-              <AirportSelector
-                id="to-desktop"
-                label="To"
-                value={to}
-                onChange={setTo}
-                placeholder="Select arrival"
-                airports={airports}
-                icon={<LocationIcon />}
-              />
-            </div>
-            <div className="flex-1">
-              <DatesSelector id="date-desktop" label="Departure Date" value={dateRange} onChange={setDateRange} />
-            </div>
+             <div className="flex-1">
+               <AirportSelector
+                 id="to-desktop"
+                 label="To"
+                 value={to}
+                 onChange={setTo}
+                 placeholder="Select arrival"
+                 airports={airports}
+                 icon={<LocationIcon />}
+                 disabled={isArrivalDisabled}
+               />
+             </div>
+             <div className="flex-1">
+               <DatesSelector id="date-desktop" label="Departure Date" value={dateRange} onChange={setDateRange} disabled={isDateDisabled} />
+             </div>
             <div className="min-w-[200px]">
               <SearchButton disabled={!isValid} onClick={handleSearch} />
             </div>
@@ -160,8 +163,9 @@ export function FlightSearch({ onSearch }: FlightSearchProps) {
               placeholder="Select arrival"
               airports={airports}
               icon={<LocationIcon />}
+              disabled={isArrivalDisabled}
             />
-            <DatesSelector id="date-tablet" label="Departure Date" value={dateRange} onChange={setDateRange} />
+            <DatesSelector id="date-tablet" label="Departure Date" value={dateRange} onChange={setDateRange} disabled={isDateDisabled} />
             <SearchButton disabled={!isValid} onClick={handleSearch} />
           </div>
         </div>
@@ -220,8 +224,9 @@ export function FlightSearch({ onSearch }: FlightSearchProps) {
                 placeholder="Select arrival"
                 airports={airports}
                 icon={<LocationIcon />}
+                disabled={isArrivalDisabled}
               />
-              <DatesSelector id="date-mobile" label="Departure Date" value={dateRange} onChange={setDateRange} />
+              <DatesSelector id="date-mobile" label="Departure Date" value={dateRange} onChange={setDateRange} disabled={isDateDisabled} />
               <div className="mt-auto pt-4">
                 <SearchButton
                   disabled={!isValid}

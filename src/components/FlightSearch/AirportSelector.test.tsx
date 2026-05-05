@@ -237,4 +237,43 @@ describe('AirportSelector', () => {
     const bangkokOption = screen.getByRole('option', { name: /Bangkok/i });
     expect(bangkokOption).toHaveAttribute('aria-selected', 'true');
   });
+
+  it('does not open dropdown when disabled', async () => {
+    const user = userEvent.setup();
+    render(
+      <AirportSelector
+        id="origin"
+        label="Origin"
+        value=""
+        onChange={() => {}}
+        placeholder="Select airport"
+        airports={sampleAirports}
+        icon={<PlaneIcon />}
+        disabled={true}
+      />
+    );
+
+    const button = screen.getByRole('button', { name: /origin/i });
+    await user.click(button);
+
+    expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
+  });
+
+  it('applies disabled styles when disabled', () => {
+    render(
+      <AirportSelector
+        id="origin"
+        label="Origin"
+        value=""
+        onChange={() => {}}
+        placeholder="Select airport"
+        airports={sampleAirports}
+        icon={<PlaneIcon />}
+        disabled={true}
+      />
+    );
+
+    const button = screen.getByRole('button', { name: /origin/i });
+    expect(button).toBeDisabled();
+  });
 });

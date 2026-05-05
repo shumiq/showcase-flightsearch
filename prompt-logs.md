@@ -108,4 +108,16 @@
 
 ---
 
+### 19. Disable Arrival and Date Selectors
+**Prompt:**
+> In @src/components/FlightSearch/FlightSearch.tsx , disable arrival airport and date selector if user haven't select departure airport yet. In the same way, disable date selector if user haven't select both departure and arrival airport yet
+
+---
+
+### 20. Update Tests and Storybook
+**Prompt:**
+> continue. Don't forget to update test and storybook
+
+---
+
 *Last updated: 2026-05-05*
