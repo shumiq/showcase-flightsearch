@@ -179,20 +179,15 @@ export function DatesSelector({ id, label, value, onChange, defaultTripType = 'r
     if (tripType === 'oneWay') {
       setDepartureDate(selectedDateStr);
       setReturnDate('');
-      onChange({ departure: selectedDateStr });
-      setIsOpen(false);
     } else {
       if (!departureDate || selectingReturn) {
         if (!departureDate) {
           setDepartureDate(selectedDateStr);
           setSelectingReturn(true);
-          // Don't close, let user select return date
         } else {
           // Selecting return date
           if (selectedDateStr >= departureDate) {
             setReturnDate(selectedDateStr);
-            onChange({ departure: departureDate, return: selectedDateStr });
-            setIsOpen(false);
             setSelectingReturn(false);
           }
         }
@@ -202,6 +197,22 @@ export function DatesSelector({ id, label, value, onChange, defaultTripType = 'r
         setReturnDate('');
         setSelectingReturn(true);
       }
+    }
+  };
+
+  const handleReset = () => {
+    setDepartureDate('');
+    setReturnDate('');
+    setSelectingReturn(false);
+  };
+
+  const handleConfirm = () => {
+    if (tripType === 'oneWay' && departureDate) {
+      onChange({ departure: departureDate });
+      setIsOpen(false);
+    } else if (tripType === 'return' && departureDate && returnDate) {
+      onChange({ departure: departureDate, return: returnDate });
+      setIsOpen(false);
     }
   };
 
@@ -278,6 +289,8 @@ export function DatesSelector({ id, label, value, onChange, defaultTripType = 'r
         </button>
       );
     }
+
+    const isConfirmDisabled = tripType === 'oneWay' ? !departureDate : !departureDate || !returnDate;
 
     return (
       <div className={isMobile ? "flex flex-col" : "absolute top-full z-50 mt-2"}>
@@ -360,6 +373,29 @@ export function DatesSelector({ id, label, value, onChange, defaultTripType = 'r
               Now select your return date
             </div>
           )}
+
+          {/* Reset and Confirm buttons */}
+          <div className="mt-4 flex gap-3 border-t border-gray-100 pt-4">
+            <button
+              type="button"
+              onClick={handleReset}
+              className="flex-1 rounded-lg border border-gray-300 py-2.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50"
+            >
+              Reset
+            </button>
+            <button
+              type="button"
+              onClick={handleConfirm}
+              disabled={isConfirmDisabled}
+              className={`flex-1 rounded-lg py-2.5 text-sm font-medium transition-colors ${
+                isConfirmDisabled
+                  ? "cursor-not-allowed bg-gray-100 text-gray-400"
+                  : "bg-indigo-600 text-white hover:bg-indigo-700"
+              }`}
+            >
+              Confirm
+            </button>
+          </div>
         </div>
       </div>
     );
