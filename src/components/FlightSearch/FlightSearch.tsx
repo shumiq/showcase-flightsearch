@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { AirportSelector } from "./AirportSelector";
+import { DatesSelector, type DateRange } from "./DatesSelector";
 
 const airports = [
   { code: "BKK", city: "Bangkok" },
@@ -15,7 +16,7 @@ const airports = [
 ];
 
 interface FlightSearchProps {
-  onSearch?: (data: { from: string; to: string; date: string }) => void;
+  onSearch?: (data: { from: string; to: string; date: DateRange }) => void;
 }
 
 function PlaneIcon() {
@@ -30,23 +31,6 @@ function PlaneIcon() {
       strokeLinejoin="round"
     >
       <path d="M2 12h5l3-9 4 18 3-9h5" />
-    </svg>
-  );
-}
-
-function CalendarIcon() {
-  return (
-    <svg
-      className="h-5 w-5"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <rect x="3" y="4" width="18" height="18" rx="2" />
-      <path d="M16 2v4M8 2v4M3 10h18" />
     </svg>
   );
 }
@@ -84,35 +68,6 @@ function CloseIcon() {
   );
 }
 
-function DateField({
-  label,
-  value,
-  onChange,
-}: {
-  label: string;
-  value: string;
-  onChange: (v: string) => void;
-}) {
-  return (
-    <div className="relative">
-      <label htmlFor="date" className="sr-only">
-        {label}
-      </label>
-      <div className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
-        <CalendarIcon />
-      </div>
-      <input
-        id="date"
-        type="date"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        min={new Date().toISOString().split("T")[0]}
-        className="w-full rounded-xl border border-gray-200 bg-white py-4 pl-12 pr-4 text-sm font-medium text-gray-900 shadow-sm transition-all hover:border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
-      />
-    </div>
-  );
-}
-
 function SearchButton({
   disabled,
   onClick,
@@ -136,15 +91,15 @@ function SearchButton({
 export function FlightSearch({ onSearch }: FlightSearchProps) {
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
-  const [date, setDate] = useState("");
+  const [dateRange, setDateRange] = useState<DateRange>({ departure: '' });
   const [isOpen, setIsOpen] = useState(false);
 
   const handleSearch = () => {
-    onSearch?.({ from, to, date });
+    onSearch?.({ from, to, date: dateRange });
     setIsOpen(false);
   };
 
-  const isValid = from && to && date;
+  const isValid = from && to && dateRange.departure;
 
   return (
     <>
@@ -175,7 +130,7 @@ export function FlightSearch({ onSearch }: FlightSearchProps) {
               />
             </div>
             <div className="flex-1">
-              <DateField label="Departure Date" value={date} onChange={setDate} />
+              <DatesSelector id="date-desktop" label="Departure Date" value={dateRange} onChange={setDateRange} />
             </div>
             <div className="min-w-[200px]">
               <SearchButton disabled={!isValid} onClick={handleSearch} />
@@ -206,7 +161,7 @@ export function FlightSearch({ onSearch }: FlightSearchProps) {
               airports={airports}
               icon={<LocationIcon />}
             />
-            <DateField label="Departure Date" value={date} onChange={setDate} />
+            <DatesSelector id="date-tablet" label="Departure Date" value={dateRange} onChange={setDateRange} />
             <SearchButton disabled={!isValid} onClick={handleSearch} />
           </div>
         </div>
@@ -266,7 +221,7 @@ export function FlightSearch({ onSearch }: FlightSearchProps) {
                 airports={airports}
                 icon={<LocationIcon />}
               />
-              <DateField label="Departure Date" value={date} onChange={setDate} />
+              <DatesSelector id="date-mobile" label="Departure Date" value={dateRange} onChange={setDateRange} />
               <div className="mt-auto pt-4">
                 <SearchButton
                   disabled={!isValid}

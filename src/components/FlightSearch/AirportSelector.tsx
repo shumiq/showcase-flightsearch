@@ -15,6 +15,19 @@ interface AirportSelectorProps {
   icon: React.ReactNode;
 }
 
+function useIsMobile(breakpoint = 768) {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < breakpoint);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, [breakpoint]);
+
+  return isMobile;
+}
+
 function ChevronDownIcon() {
   return (
     <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
@@ -40,6 +53,14 @@ function SearchIcon() {
   );
 }
 
+function CloseIcon() {
+  return (
+    <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+      <path d="M18 6L6 18M6 6l12 12" />
+    </svg>
+  );
+}
+
 export function AirportSelector({
   id,
   label,
@@ -53,6 +74,7 @@ export function AirportSelector({
   const [search, setSearch] = useState("");
   const containerRef = useRef<HTMLDivElement>(null);
   const searchRef = useRef<HTMLInputElement>(null);
+  const isMobile = useIsMobile();
 
   const selectedAirport = airports.find((a) => a.code === value);
 
@@ -89,6 +111,110 @@ export function AirportSelector({
     setSearch("");
   };
 
+  const renderDropdown = () => (
+    <div className="absolute z-50 mt-2 w-full rounded-xl border border-gray-200 bg-white py-2 shadow-xl shadow-gray-900/10">
+      <div className="border-b border-gray-100 px-3 py-2">
+        <div className="relative">
+          <div className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+            <SearchIcon />
+          </div>
+          <input
+            ref={searchRef}
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search airport..."
+            className="w-full rounded-lg border border-gray-200 bg-gray-50 py-2.5 pl-9 pr-3 text-sm text-gray-900 placeholder:text-gray-400 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500/20"
+          />
+        </div>
+      </div>
+      <ul role="listbox" className="max-h-52 overflow-y-auto">
+        {filtered.length === 0 ? (
+          <li className="px-4 py-3 text-sm text-gray-400">No airports found</li>
+        ) : (
+          filtered.map((airport) => (
+            <li
+              key={airport.code}
+              role="option"
+              aria-selected={airport.code === value}
+              onClick={() => handleSelect(airport.code)}
+              className={`cursor-pointer px-4 py-3 text-sm transition-colors hover:bg-indigo-50 ${
+                airport.code === value
+                  ? "bg-indigo-50 font-semibold text-indigo-700"
+                  : "text-gray-700"
+              }`}
+            >
+              {airport.city} <span className="text-gray-400">({airport.code})</span>
+            </li>
+          ))
+        )}
+      </ul>
+    </div>
+  );
+
+  const renderMobileModal = () => (
+    <div className="fixed inset-0 z-50">
+      <div
+        className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+        onClick={() => {
+          setIsOpen(false);
+          setSearch("");
+        }}
+      />
+      <div className="absolute inset-x-0 bottom-0 flex max-h-[90vh] flex-col rounded-t-3xl bg-white shadow-2xl">
+        <div className="flex items-center justify-between border-b border-gray-100 px-6 py-4">
+          <h2 className="text-lg font-semibold text-gray-900">{label}</h2>
+          <button
+            type="button"
+            onClick={() => {
+              setIsOpen(false);
+              setSearch("");
+            }}
+            className="rounded-full p-2 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600"
+          >
+            <CloseIcon />
+          </button>
+        </div>
+        <div className="flex flex-col gap-2 overflow-y-auto p-6">
+          <div className="relative">
+            <div className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+              <SearchIcon />
+            </div>
+            <input
+              ref={searchRef}
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search airport..."
+              className="w-full rounded-lg border border-gray-200 bg-gray-50 py-3 pl-9 pr-3 text-base text-gray-900 placeholder:text-gray-400 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500/20"
+            />
+          </div>
+          <ul role="listbox" className="overflow-y-auto">
+            {filtered.length === 0 ? (
+              <li className="px-4 py-3 text-sm text-gray-400">No airports found</li>
+            ) : (
+              filtered.map((airport) => (
+                <li
+                  key={airport.code}
+                  role="option"
+                  aria-selected={airport.code === value}
+                  onClick={() => handleSelect(airport.code)}
+                  className={`cursor-pointer px-4 py-4 text-base transition-colors hover:bg-indigo-50 ${
+                    airport.code === value
+                      ? "bg-indigo-50 font-semibold text-indigo-700"
+                      : "text-gray-700"
+                  }`}
+                >
+                  {airport.city} <span className="text-gray-400">({airport.code})</span>
+                </li>
+              ))
+            )}
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
+
   return (
     <div ref={containerRef} className="relative">
       <label htmlFor={id} className="sr-only">{label}</label>
@@ -113,46 +239,7 @@ export function AirportSelector({
         {isOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}
       </div>
 
-      {isOpen && (
-        <div className="absolute z-50 mt-2 w-full rounded-xl border border-gray-200 bg-white py-2 shadow-xl shadow-gray-900/10">
-          <div className="border-b border-gray-100 px-3 py-2">
-            <div className="relative">
-              <div className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-                <SearchIcon />
-              </div>
-              <input
-                ref={searchRef}
-                type="text"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search airport..."
-                className="w-full rounded-lg border border-gray-200 bg-gray-50 py-2.5 pl-9 pr-3 text-sm text-gray-900 placeholder:text-gray-400 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500/20"
-              />
-            </div>
-          </div>
-          <ul role="listbox" className="max-h-52 overflow-y-auto">
-            {filtered.length === 0 ? (
-              <li className="px-4 py-3 text-sm text-gray-400">No airports found</li>
-            ) : (
-              filtered.map((airport) => (
-                <li
-                  key={airport.code}
-                  role="option"
-                  aria-selected={airport.code === value}
-                  onClick={() => handleSelect(airport.code)}
-                  className={`cursor-pointer px-4 py-3 text-sm transition-colors hover:bg-indigo-50 ${
-                    airport.code === value
-                      ? "bg-indigo-50 font-semibold text-indigo-700"
-                      : "text-gray-700"
-                  }`}
-                >
-                  {airport.city} <span className="text-gray-400">({airport.code})</span>
-                </li>
-              ))
-            )}
-          </ul>
-        </div>
-      )}
+      {isOpen && (isMobile ? renderMobileModal() : renderDropdown())}
     </div>
   );
 }

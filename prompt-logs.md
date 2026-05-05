@@ -60,4 +60,34 @@
 
 ---
 
+### 10. Create Storybook for AirportSelector
+**Prompt:**
+> Create storybook for @src/components/FlightSearch/AirportSelector.tsx
+
+---
+
+### 11. Write Unit Test for AirportSelector
+**Prompt:**
+> Write unit test for @src/components/FlightSearch/AirportSelector.tsx
+
+---
+
+### 12. Make AirportSelector Responsive
+**Prompt:**
+> Make @src/components/FlightSearch/AirportSelector.tsx responsive. On mobile, it should be full screen instead of dropdown.
+
+---
+
+### 13. Create DatesSelector Component
+**Prompt:**
+> Create DatesSelector component with custom calendar and it to FlightSearch
+
+---
+
+### 14. Add Return/One Way Radio Buttons
+**Prompt:**
+> In DatesSelector, add Return and OneWay radio button (default is Return). If user select return, in calendar, user can select 2 dates instead of 1
+
+---
+
 *Last updated: 2026-05-05*
