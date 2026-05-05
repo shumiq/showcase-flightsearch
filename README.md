@@ -1,73 +1,43 @@
-# React + TypeScript + Vite
+# AI Agent Showcase - FlightSearch UI
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A demonstration of AI agent capabilities in building a complete React UI component from scratch. This project showcases how an AI agent can iteratively develop, style, test, and refine a complex FlightSearch interface using React 19, TypeScript, and Tailwind CSS.
 
-Currently, two official plugins are available:
+## Live Demo
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+🚀 **[View Live Demo](https://flightsearch-poc.vercel.app/)**
 
-## React Compiler
+## What Was Built
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+The AI agent built a fully functional **FlightSearch** component consisting of:
 
-## Expanding the ESLint configuration
+- **AirportSelector** - Custom dropdown component for selecting departure/arrival airports
+- **DatesSelector** - Custom calendar component with Return/OneWay trip type support
+- **Responsive Design** - Desktop (single row with border/shadow), Tablet (single column), Mobile (full-screen modal)
+- **Unit Tests** - Vitest test suite for components
+- **Storybook** - Component documentation and visual testing
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Tech Stack
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- React 19
+- TypeScript
+- Tailwind CSS v4
+- Vitest (testing)
+- Storybook
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## AI Agent Prompt Log
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Every prompt given to the AI agent is documented in [`prompt-logs.md`](./prompt-logs.md) for transparency and reference.
+
+## Getting Started
+
+```bash
+pnpm install
+pnpm storybook
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Available Scripts
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- `pnpm storybook` - Start Storybook development server
+- `pnpm build-storybook` - Build Storybook for production
+- `pnpm test` - Run tests
+- `pnpm lint` - Run ESLint
