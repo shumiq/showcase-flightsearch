@@ -1,3 +1,7 @@
 {
-  "name": "showcase"
+    "$schema": "https://opencode.ai/config.json",
+    "autoupdate": true,
+    "instructions": [
+        "AGENTS.md"
+    ]
 }
