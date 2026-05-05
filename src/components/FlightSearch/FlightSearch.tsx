@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { AirportSelector } from "./AirportSelector";
 
 const airports = [
   { code: "BKK", city: "Bangkok" },
@@ -83,53 +84,6 @@ function CloseIcon() {
   );
 }
 
-function SelectField({
-  id,
-  label,
-  value,
-  onChange,
-  placeholder,
-  icon,
-}: {
-  id: string;
-  label: string;
-  value: string;
-  onChange: (v: string) => void;
-  placeholder: string;
-  icon: React.ReactNode;
-}) {
-  return (
-    <div className="relative">
-      <label htmlFor={id} className="sr-only">
-        {label}
-      </label>
-      <div className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
-        {icon}
-      </div>
-      <select
-        id={id}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className="w-full appearance-none rounded-xl border border-gray-200 bg-white py-4 pl-12 pr-10 text-sm font-medium text-gray-900 shadow-sm transition-all hover:border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
-      >
-        <option value="" disabled>
-          {placeholder}
-        </option>
-        {airports.map((airport) => (
-          <option key={airport.code} value={airport.code}>
-            {airport.city} ({airport.code})
-          </option>
-        ))}
-      </select>
-      <div className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-gray-400">
-        <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-          <path d="M6 9l6 6 6-6" />
-        </svg>
-      </div>
-    </div>
-  );
-}
-
 function DateField({
   label,
   value,
@@ -199,22 +153,24 @@ export function FlightSearch({ onSearch }: FlightSearchProps) {
         <div className="rounded-2xl border border-gray-200/80 bg-white p-3 shadow-xl shadow-gray-900/5">
           <div className="flex items-center gap-3">
             <div className="flex-1">
-              <SelectField
+              <AirportSelector
                 id="from-desktop"
                 label="From"
                 value={from}
                 onChange={setFrom}
                 placeholder="Select departure"
+                airports={airports}
                 icon={<LocationIcon />}
               />
             </div>
             <div className="flex-1">
-              <SelectField
+              <AirportSelector
                 id="to-desktop"
                 label="To"
                 value={to}
                 onChange={setTo}
                 placeholder="Select arrival"
+                airports={airports}
                 icon={<LocationIcon />}
               />
             </div>
@@ -232,20 +188,22 @@ export function FlightSearch({ onSearch }: FlightSearchProps) {
       <div className="hidden w-full max-w-md lg:hidden md:block">
         <div className="rounded-2xl border border-gray-200/80 bg-white p-4 shadow-xl shadow-gray-900/5">
           <div className="flex flex-col gap-3">
-            <SelectField
+            <AirportSelector
               id="from-tablet"
               label="From"
               value={from}
               onChange={setFrom}
               placeholder="Select departure"
+              airports={airports}
               icon={<LocationIcon />}
             />
-            <SelectField
+            <AirportSelector
               id="to-tablet"
               label="To"
               value={to}
               onChange={setTo}
               placeholder="Select arrival"
+              airports={airports}
               icon={<LocationIcon />}
             />
             <DateField label="Departure Date" value={date} onChange={setDate} />
@@ -290,20 +248,22 @@ export function FlightSearch({ onSearch }: FlightSearchProps) {
             </div>
 
             <div className="flex flex-1 flex-col gap-4 overflow-y-auto p-6">
-              <SelectField
+              <AirportSelector
                 id="from-mobile"
                 label="From"
                 value={from}
                 onChange={setFrom}
                 placeholder="Select departure"
+                airports={airports}
                 icon={<LocationIcon />}
               />
-              <SelectField
+              <AirportSelector
                 id="to-mobile"
                 label="To"
                 value={to}
                 onChange={setTo}
                 placeholder="Select arrival"
+                airports={airports}
                 icon={<LocationIcon />}
               />
               <DateField label="Departure Date" value={date} onChange={setDate} />
