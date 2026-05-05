@@ -13,6 +13,7 @@ interface DatesSelectorProps {
   value: DateRange;
   onChange: (dateRange: DateRange) => void;
   defaultTripType?: TripType;
+  disabled?: boolean;
 }
 
 function CalendarIcon() {
@@ -120,7 +121,7 @@ function isPastDate(year: number, month: number, day: number) {
   return compare < today;
 }
 
-export function DatesSelector({ id, label, value, onChange, defaultTripType = 'return' }: DatesSelectorProps) {
+export function DatesSelector({ id, label, value, onChange, defaultTripType = 'return', disabled = false }: DatesSelectorProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [tripType, setTripType] = useState<TripType>(defaultTripType);
   const [departureDate, setDepartureDate] = useState<string>('');
@@ -396,12 +397,18 @@ export function DatesSelector({ id, label, value, onChange, defaultTripType = 'r
         type="button"
         id={id}
         onClick={() => {
+          if (disabled) return;
           if (!isOpen && tripType === 'return' && departureDate && !returnDate) {
             setSelectingReturn(true);
           }
           setIsOpen(!isOpen);
         }}
-        className="relative w-full rounded-xl border border-gray-200 bg-white py-4 pl-12 pr-4 text-left text-sm font-medium text-gray-900 shadow-sm transition-all hover:border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+        disabled={disabled}
+        className={`relative w-full rounded-xl border py-4 pl-12 pr-4 text-left text-sm font-medium shadow-sm transition-all ${
+          disabled
+            ? "cursor-not-allowed border-gray-200 bg-gray-50 text-gray-400"
+            : "border-gray-200 bg-white text-gray-900 hover:border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+        }`}
       >
         <div className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
           <CalendarIcon />
@@ -412,7 +419,7 @@ export function DatesSelector({ id, label, value, onChange, defaultTripType = 'r
       </button>
 
       {/* Calendar dropdown/modal */}
-      {isOpen && (
+      {isOpen && !disabled && (
         <div data-testid="calendar-container">
           {/* Desktop dropdown */}
           <div data-testid="desktop-calendar" className="absolute top-full z-50 mt-2 hidden md:block" ref={dropdownRef}>

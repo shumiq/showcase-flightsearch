@@ -13,6 +13,7 @@ interface AirportSelectorProps {
   placeholder: string;
   airports: Airport[];
   icon: React.ReactNode;
+  disabled?: boolean;
 }
 
 function useIsMobile(breakpoint = 768) {
@@ -69,6 +70,7 @@ export function AirportSelector({
   placeholder,
   airports,
   icon,
+  disabled = false,
 }: AirportSelectorProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState("");
@@ -106,6 +108,7 @@ export function AirportSelector({
   }, [isOpen]);
 
   const handleSelect = (code: string) => {
+    if (disabled) return;
     onChange(code);
     setIsOpen(false);
     setSearch("");
@@ -224,8 +227,13 @@ export function AirportSelector({
       <button
         id={id}
         type="button"
-        onClick={() => setIsOpen(!isOpen)}
-        className="w-full rounded-xl border border-gray-200 bg-white py-4 pl-12 pr-10 text-left text-sm font-medium shadow-sm transition-all hover:border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+        onClick={() => !disabled && setIsOpen(!isOpen)}
+        disabled={disabled}
+        className={`w-full rounded-xl border py-4 pl-12 pr-10 text-left text-sm font-medium shadow-sm transition-all ${
+          disabled
+            ? "cursor-not-allowed border-gray-200 bg-gray-50 text-gray-400"
+            : "border-gray-200 bg-white text-gray-900 hover:border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+        }`}
         aria-expanded={isOpen}
         aria-haspopup="listbox"
       >
@@ -239,7 +247,7 @@ export function AirportSelector({
         {isOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}
       </div>
 
-      {isOpen && (isMobile ? renderMobileModal() : renderDropdown())}
+      {isOpen && !disabled && (isMobile ? renderMobileModal() : renderDropdown())}
     </div>
   );
 }

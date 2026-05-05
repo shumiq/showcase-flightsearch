@@ -188,4 +188,25 @@ describe('DatesSelector', () => {
 
     expect(screen.queryByTestId('desktop-calendar')).not.toBeInTheDocument();
   });
+
+  it('does not open calendar when disabled', async () => {
+    const user = userEvent.setup();
+    render(
+      <DatesSelector id="test-date" label="Departure Date" value={{ departure: '' }} onChange={() => {}} disabled={true} />
+    );
+
+    const button = screen.getByLabelText('Departure Date');
+    await user.click(button);
+
+    expect(screen.queryByTestId('desktop-calendar')).not.toBeInTheDocument();
+  });
+
+  it('applies disabled attribute when disabled', () => {
+    render(
+      <DatesSelector id="test-date" label="Departure Date" value={{ departure: '' }} onChange={() => {}} disabled={true} />
+    );
+
+    const button = screen.getByLabelText('Departure Date');
+    expect(button).toBeDisabled();
+  });
 });

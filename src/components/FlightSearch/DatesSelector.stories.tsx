@@ -72,3 +72,13 @@ export const OneWay: Story = {
     defaultTripType: 'oneWay',
   },
 };
+
+export const Disabled: Story = {
+  args: {
+    id: 'date-disabled',
+    label: 'Departure Date',
+    value: { departure: '' },
+    onChange: () => {},
+    disabled: true,
+  },
+};
