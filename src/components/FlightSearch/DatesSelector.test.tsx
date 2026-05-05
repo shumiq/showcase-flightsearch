@@ -63,10 +63,6 @@ describe('DatesSelector', () => {
     await user.click(button);
 
     const desktopCalendar = screen.getByTestId('desktop-calendar');
-    
-    // Click "One Way" radio button within desktop calendar
-    const oneWayRadio = within(desktopCalendar).getByLabelText('One Way');
-    await user.click(oneWayRadio);
 
     const dayButtons = within(desktopCalendar).getAllByRole('button').filter(btn => /^\d+$/.test(btn.textContent || ''));
     const futureDay = dayButtons.find(btn => {
@@ -76,6 +72,10 @@ describe('DatesSelector', () => {
     if (futureDay) {
       await user.click(futureDay);
     }
+
+    // Click Confirm button
+    const confirmButton = within(desktopCalendar).getByRole('button', { name: 'Confirm' });
+    await user.click(confirmButton);
 
     expect(onChange).toHaveBeenCalledWith(
       expect.objectContaining({ departure: expect.stringMatching(/^\d{4}-\d{2}-\d{2}$/) })
@@ -162,6 +162,10 @@ describe('DatesSelector', () => {
     if (returnDay) {
       await user.click(returnDay);
     }
+
+    // Click Confirm button
+    const confirmButton = within(desktopCalendar).getByRole('button', { name: 'Confirm' });
+    await user.click(confirmButton);
 
     expect(onChange).toHaveBeenCalledWith(
       expect.objectContaining({

@@ -120,4 +120,10 @@
 
 ---
 
+### 21. Add Reset and Confirm Buttons to DatesSelector
+**Prompt:**
+> in @src/components/FlightSearch/DatesSelector.tsx , instead of closing DatesSelector once you select dates, add reset and confirm button.
+
+---
+
 *Last updated: 2026-05-05*

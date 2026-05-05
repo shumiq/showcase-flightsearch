@@ -1,4 +1,4 @@
-import { render, screen, within } from '@testing-library/react';
+import { render, screen, within, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, it, expect, vi } from 'vitest';
 import { FlightSearch } from './FlightSearch';
@@ -27,11 +27,11 @@ describe('FlightSearch', () => {
     await user.click(dateButton);
 
     const desktopCalendar = screen.getByTestId('desktop-calendar');
-    
+
     // Click "One Way" to simplify the test
     const oneWayRadio = within(desktopCalendar).getByLabelText('One Way');
     await user.click(oneWayRadio);
-    
+
     const dayButtons = within(desktopCalendar).getAllByRole('button').filter(btn => /^\d+$/.test(btn.textContent || ''));
     const futureDay = dayButtons.find(btn => {
       const day = parseInt(btn.textContent || '0');
@@ -41,7 +41,17 @@ describe('FlightSearch', () => {
       await user.click(futureDay);
     }
 
+    // Click Confirm button
+    const confirmButton = within(desktopCalendar).getByRole('button', { name: 'Confirm' });
+    await user.click(confirmButton);
+
+    // Wait for the state to update - the date button text should change
+    await waitFor(() => {
+      expect(dateButton.textContent).not.toBe('Select date');
+    });
+
     const searchButton = screen.getAllByRole('button', { name: /search flights/i })[0];
+    expect(searchButton).not.toBeDisabled();
     await user.click(searchButton);
 
     expect(onSearch).toHaveBeenCalledWith(
