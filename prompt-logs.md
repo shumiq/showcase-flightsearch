@@ -126,4 +126,28 @@
 
 ---
 
-*Last updated: 2026-05-05*
+### 22. Create Bug Ticket Skill
+**Prompt:**
+> create create_bug_ticket skill at @.agents/skills/create-bug-ticket/SKILL.md . This skill will ask user several questions which are: where it happen, which device, browser, version, etc. Steps to reproduce, expect and actual behavior. The template of bug ticket should be in this skill so the bug ticket has consistent format. After everything done. Create bug ticket at ./bugs/{title}.md
+
+---
+
+### 23. Update Bug Ticket Skill
+**Prompt:**
+> update @.agents/skills/create-bug-ticket/SKILL.md to rewrite the input from user as well. The skill will expect user to put some fuzzy information and it's the skill job to make it structured and easy to read.
+
+---
+
+### 24. Enhance Bug Ticket Skill with Investigation
+**Prompt:**
+> The @.agents/skills/create-bug-ticket/SKILL.md should also try to do some early investigation and put it's own context in the bug ticket as well. Basically your job is not just put what user describe as is but try to help user gather information, gap, clues, etc.
+
+---
+
+### 25. Generate Bug Description
+**Prompt:**
+> Also generate the description of bug in the ticket as well. The skill should derive from all context user provided.
+
+---
+
+*Last updated: 2026-05-06*
