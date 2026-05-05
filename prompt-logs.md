@@ -78,15 +78,33 @@
 
 ---
 
-### 13. Create DatesSelector Component
+### 14. Create DatesSelector Component
 **Prompt:**
 > Create DatesSelector component with custom calendar and it to FlightSearch
 
 ---
 
-### 14. Add Return/One Way Radio Buttons
+### 15. Add Return/One Way Radio Buttons
 **Prompt:**
 > In DatesSelector, add Return and OneWay radio button (default is Return). If user select return, in calendar, user can select 2 dates instead of 1
+
+---
+
+### 16. Rewrite README
+**Prompt:**
+> Rewrite @README.md , this project is a showcase using AI agent to build FlightSearch UI. add https://flightsearch-poc.vercel.app/ as demo link in readme as well
+
+---
+
+### 17. Remove Unnecessary Files for Storybook
+**Prompt:**
+> This project suppose to run with storybook. Remove all unneccessary files that not relate to component and storybook. Remove unneccessary pnpm command as well
+
+---
+
+### 18. Update README for Storybook-Only
+**Prompt:**
+> update readme as well
 
 ---
 
