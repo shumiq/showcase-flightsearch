@@ -215,4 +215,12 @@
 
 ---
 
+### 34. Create Implement Ticket Skill
+**Prompt:**
+> create implement-ticket skill to follow the development plan in ./plans .
+> - the skill will ask user first if you want to be yolo mode or approval mode which user will approve each step
+> - Either mode, the skill must be transparent and report user every step
+
+---
+
 *Last updated: 2026-05-07*
