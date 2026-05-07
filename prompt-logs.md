@@ -185,4 +185,16 @@
 
 ---
 
+### 30. Generate Document Skill
+**Prompt:**
+> create a generate-document skill.
+> - user will tell which component they want to generate the document for it.
+> - you have to generate the technical document for that component under ./docs
+> - You can design what it should be in document but put template in skill as well for consistentcy
+> - This document will be read by developer. It should describe everything they need to know if they want to use this component.
+> - If this is not standalone component and suppose to use with other, mention it as well
+> - Have some sample code in document as well
+
+---
+
 *Last updated: 2026-05-07*
