@@ -1,4 +1,4 @@
-# AI Agent Showcase - FlightSearch UI
+# AI Agent Showcase
 
 A demonstration of AI agent capabilities in building a complete React UI component from scratch. This project showcases how an AI agent can iteratively develop, style, test, and refine a complex FlightSearch interface using React 19, TypeScript, and Tailwind CSS.
 
@@ -10,11 +10,12 @@ A demonstration of AI agent capabilities in building a complete React UI compone
 
 The AI agent built a fully functional **FlightSearch** component consisting of:
 
-- **AirportSelector** - Custom dropdown component for selecting departure/arrival airports
-- **DatesSelector** - Custom calendar component with Return/OneWay trip type support
-- **Responsive Design** - Desktop (single row with border/shadow), Tablet (single column), Mobile (full-screen modal)
-- **Unit Tests** - Vitest test suite for components
-- **Storybook** - Component documentation and visual testing
+- **FlightSearch** - Main responsive search form combining all sub-components
+- **AirportSelector** - Searchable dropdown for departure/arrival airports with mobile bottom-sheet
+- **DatesSelector** - Custom calendar with OneWay/Return trip type, date range selection, and mobile bottom-sheet
+- **Responsive Design** - Desktop (single row), Tablet (single column), Mobile (full-screen modal)
+- **Unit Tests** - 37 Vitest tests across all components
+- **Storybook** - Component documentation and visual testing with autodocs
 
 ## Tech Stack
 
@@ -23,6 +24,18 @@ The AI agent built a fully functional **FlightSearch** component consisting of:
 - Tailwind CSS v4
 - Vitest (testing)
 - Storybook
+- ESLint
+
+## Available AI Agent Skills
+
+This project includes specialized skills to help the AI agent work more effectively:
+
+| Skill | Description | Output |
+|-------|-------------|--------|
+| **create-bug-ticket** | Transforms fuzzy bug descriptions into structured bug tickets with investigation findings | `./bugs/{title}.md` |
+| **create-story-ticket** | Converts feature requests into professional user story tickets with acceptance criteria | `./stories/{title}.md` |
+| **create-development-plan** | Creates TDD-based development plans from bug or story tickets with phased implementation | `./plans/{title}-plan.md` |
+| **generate-document** | Generates comprehensive technical documentation for any component | `./docs/{component}.md` |
 
 ## AI Agent Prompt Log
 
@@ -37,7 +50,26 @@ pnpm storybook
 
 ## Available Scripts
 
-- `pnpm storybook` - Start Storybook development server
-- `pnpm build-storybook` - Build Storybook for production
-- `pnpm test` - Run tests
-- `pnpm lint` - Run ESLint
+| Command | Description |
+|---------|-------------|
+| `pnpm storybook` | Start Storybook development server (port 6006) |
+| `pnpm build-storybook` | Build Storybook for production |
+| `pnpm test` | Run Vitest tests (interactive mode) |
+| `pnpm test -- --run` | Run Vitest tests (CI mode) |
+| `pnpm lint` | Run ESLint |
+
+## Project Structure
+
+```
+showcase/
+├── src/components/FlightSearch/   # Main feature components
+│   ├── FlightSearch.tsx           # Top-level search form
+│   ├── AirportSelector.tsx        # Airport dropdown
+│   └── DatesSelector.tsx          # Calendar date picker
+├── .agents/skills/                # AI agent skill definitions
+├── bugs/                          # Bug tracking tickets
+├── stories/                       # User story tickets
+├── plans/                         # Development plans
+├── docs/                          # Generated documentation
+└── .storybook/                    # Storybook configuration
+```
