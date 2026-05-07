@@ -150,4 +150,23 @@
 
 ---
 
-*Last updated: 2026-05-06*
+### 26. Create Story Ticket Skill
+**Prompt:**
+> using @.agents/skills/create-bug-ticket/SKILL.md as reference, Can you create `create-story-ticket` skill for me. In the same way, when invoke the skill, user will provider what they want in natural language. And have to generate the structure story ticket including prompt user for more information. These are what it should be in the story ticket
+> - title
+> - description
+> - Requirement
+> - Scope
+> - AC in given when then format
+> - Estimation (xs, s, m, l, xl)
+> - Other technical notes like Tech task (step-by-step to complete the work) or related files and lines. No need to be perfect just a early investigate is fine.
+
+---
+
+### 27. Clarify Vague Requirements
+**Prompt:**
+> It's also skill job to clarify some vague requirements or edge cases as well
+
+---
+
+*Last updated: 2026-05-07*
