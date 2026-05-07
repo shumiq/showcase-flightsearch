@@ -35,6 +35,7 @@ This project includes specialized skills to help the AI agent work more effectiv
 | **create-bug-ticket** | Transforms fuzzy bug descriptions into structured bug tickets with investigation findings | `./bugs/{title}.md` |
 | **create-story-ticket** | Converts feature requests into professional user story tickets with acceptance criteria | `./stories/{title}.md` |
 | **create-development-plan** | Creates TDD-based development plans from bug or story tickets with phased implementation | `./plans/{title}-plan.md` |
+| **implement-ticket** | Executes a development plan from ./plans using TDD (Red → Green → Refactor) with yolo or approval mode | `./src/components/...` |
 | **generate-document** | Generates comprehensive technical documentation for any component | `./docs/{component}.md` |
 | **sync-project** | Synchronizes project files (README.md, prompt-logs.md, and component documentation) with the current state of the codebase | README.md, prompt-logs.md, ./docs/ |
 
