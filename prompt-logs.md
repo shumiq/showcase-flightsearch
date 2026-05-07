@@ -209,4 +209,10 @@
 
 ---
 
+### 33. Sync Project
+**Prompt:**
+> sync the project
+
+---
+
 *Last updated: 2026-05-07*

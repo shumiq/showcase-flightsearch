@@ -35,6 +35,7 @@
     "eslint-plugin-storybook": "^10.3.6",
     "globals": "^17.5.0",
     "jsdom": "^29.1.1",
+    "opencode-ai": "^1.14.40",
     "playwright": "^1.59.1",
     "storybook": "^10.3.6",
     "tailwindcss": "^4.2.4",
