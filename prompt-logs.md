@@ -197,4 +197,16 @@
 
 ---
 
+### 31. Update AGENTS.md for pnpm
+**Prompt:**
+> Updage @AGENTS.md to tell agent that this project use pnpm
+
+---
+
+### 32. Update README.md to Match Current State
+**Prompt:**
+> update @README.md to match with current state of project right now. Also the list of available skills as well
+
+---
+
 *Last updated: 2026-05-07*

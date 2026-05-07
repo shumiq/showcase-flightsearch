@@ -37,4 +37,5 @@ After receiving **every user prompt** (excluding commit instructions), append th
 - Tailwind CSS v4 for styling
 - No external UI library — build custom components
 - Follow existing patterns in the codebase
-- Always run `npm test -- --run` after making changes
+- Use pnpm as the package manager
+- Always run `pnpm test -- --run` after making changes
