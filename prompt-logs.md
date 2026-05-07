@@ -169,4 +169,20 @@
 
 ---
 
+### 28. Create Development Plan Skill
+**Prompt:**
+> create create-development-plan skill for me
+> - user will tell the ticket they want to create a plan for (either in ./bugs or ./stories)
+> - The plan will be read by developer so feel free to use technical terms as much as you like.
+> - The plan will be in TDD approach and ensure it coverage both storybook and unit test
+> - You can design the plan format but put template in skill so that it will be consistent
+
+---
+
+### 29. Update Skill for pnpm
+**Prompt:**
+> this project is using pnpm
+
+---
+
 *Last updated: 2026-05-07*
