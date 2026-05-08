@@ -229,4 +229,40 @@
 
 ---
 
-*Last updated: 2026-05-08*
+### 36. Create Manage Project Skill
+**Prompt:**
+> create manage-github-project skill to create/update/move/archive item in https://github.com/users/santiphap-tw/projects/1
+
+---
+
+### 37. Add Sync Operation to Manage Project Skill
+**Prompt:**
+> Add sync operation into the skill
+> - read tickets in ./bugs and ./stories in local
+> - read items in github project
+> - if items in github not existed, create a new one
+> - if items in github existed, update detail on github to match with local, and update local status to match with github
+
+---
+
+### 38. Add File Link to GitHub Items
+**Prompt:**
+> make sure item in github project link with file in ./bugs or ./stories as well
+> 
+> make sure item in github project link with file in ./bugs or ./stories as well (ie. put the link into the item)
+
+---
+
+### 39. Use Remote Link Instead of Local Link
+**Prompt:**
+> Instead of local link, use remote link. This is repo on github https://github.com/santiphap-tw/flightsearch-ai
+
+---
+
+### 40. Sync Project and Commit
+**Prompt:**
+> sync project and commit
+
+---
+
+*Last updated: 2026-05-09*
