@@ -38,6 +38,7 @@ This project includes specialized skills to help the AI agent work more effectiv
 | **implement-ticket** | Executes a development plan from ./plans using TDD (Red → Green → Refactor) with yolo or approval mode | `./src/components/...` |
 | **generate-document** | Generates comprehensive technical documentation for any component | `./docs/{component}.md` |
 | **sync-project** | Synchronizes project files (README.md, prompt-logs.md, and component documentation) with the current state of the codebase | README.md, prompt-logs.md, ./docs/ |
+| **manage-github-project** | Creates, updates, moves, archives, deletes, and bi-directionally syncs project board items with local tickets | GitHub project board, ./bugs/, ./stories/ |
 
 ## AI Agent Prompt Log
 
