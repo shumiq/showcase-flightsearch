@@ -4,7 +4,7 @@ A demonstration of AI agent capabilities in building a complete React UI compone
 
 ## Live Demo
 
-🚀 **[View Live Demo](https://flightsearch-poc.vercel.app/)**
+🚀 **[View Live Demo](https://santiphap-tw.github.io/flightsearch-ai)**
 
 ## What Was Built
 

@@ -223,4 +223,10 @@
 
 ---
 
-*Last updated: 2026-05-07*
+### 35. Create GitHub Action for Storybook
+**Prompt:**
+> create new github action to build storybook (with `pnpm build-storybook`) and deploy to github pages
+
+---
+
+*Last updated: 2026-05-08*
