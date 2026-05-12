@@ -23,7 +23,7 @@ const sampleAirports = [
 ];
 
 const meta: Meta<typeof AirportSelector> = {
-  title: 'FlightSearch/AirportSelector',
+  title: 'Components/FlightSearch/AirportSelector',
   component: AirportSelector,
   parameters: {
     layout: 'padded',

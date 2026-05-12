@@ -4,7 +4,7 @@ import { useState } from 'react';
 import type { DateRange } from './DatesSelector';
 
 const meta: Meta<typeof DatesSelector> = {
-  title: 'FlightSearch/DatesSelector',
+  title: 'Components/FlightSearch/DatesSelector',
   component: DatesSelector,
   parameters: {
     layout: 'centered',
