@@ -231,7 +231,7 @@
 
 ### 36. Create Manage Project Skill
 **Prompt:**
-> create manage-github-project skill to create/update/move/archive item in https://github.com/users/santiphap-tw/projects/1
+> create manage-github-project skill to create/update/move/archive item in https://github.com/users/shumiq/projects/1
 
 ---
 
@@ -255,7 +255,7 @@
 
 ### 39. Use Remote Link Instead of Local Link
 **Prompt:**
-> Instead of local link, use remote link. This is repo on github https://github.com/santiphap-tw/flightsearch-ai
+> Instead of local link, use remote link. This is repo on github https://github.com/shumiq/showcase-flightsearch
 
 ---
 

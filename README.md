@@ -4,7 +4,7 @@ A demonstration of AI agent capabilities in building a complete React UI compone
 
 ## Live Demo
 
-🚀 **[View Live Demo](https://santiphap-tw.github.io/flightsearch-ai)**
+🚀 **[View Live Demo](https://shumiq.github.io/showcase-flightsearch)**
 
 ## What Was Built
 

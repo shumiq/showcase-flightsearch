@@ -1,13 +1,13 @@
 ---
 name: manage-github-project
-description: Creates, updates, moves, archives, deletes, and bi-directionally syncs items in the GitHub Projects board (https://github.com/users/santiphap-tw/projects/1) with local ./bugs/ and ./stories/ tickets using the gh CLI. Supports draft issues, existing issues/PRs, status changes, archiving, deletion, and two-way sync.
+description: Creates, updates, moves, archives, deletes, and bi-directionally syncs items in the GitHub Projects board (https://github.com/users/shumiq/projects/1) with local ./bugs/ and ./stories/ tickets using the gh CLI. Supports draft issues, existing issues/PRs, status changes, archiving, deletion, and two-way sync.
 ---
 
 # Manage Github Project Skill
 
 ## Description
 
-This skill manages items in the GitHub Projects board at `https://github.com/users/santiphap-tw/projects/1` using the `gh` CLI and GraphQL API. It can create draft issues, add existing issues/PRs, update item fields (like Status), archive/unarchive items, and delete items.
+This skill manages items in the GitHub Projects board at `https://github.com/users/shumiq/projects/1` using the `gh` CLI and GraphQL API. It can create draft issues, add existing issues/PRs, update item fields (like Status), archive/unarchive items, and delete items.
 
 Use this skill when the user says things like: "Add this to the project", "Create a task in the project", "Move this to In Progress", "Archive this item", "Update the status", "Remove this from the board", "Sync tickets with project", "Bi-directional sync", "Sync local tickets", etc.
 
@@ -16,13 +16,13 @@ Use this skill when the user says things like: "Add this to the project", "Creat
 | Property | Value |
 |----------|-------|
 | **Project Number** | `1` |
-| **Owner** | `santiphap-tw` |
-| **Owner Flag** | `--owner "@me"` (equivalent to `santiphap-tw`) |
+| **Owner** | `shumiq` |
+| **Owner Flag** | `--owner "@me"` (equivalent to `shumiq`) |
 | **Project Node ID** | `PVT_kwHOA5K1Vc4BXH-b` |
 | **Status Field ID** | `PVTSSF_lAHOA5K1Vc4BXH-bzhSXD2s` |
 | **Status Options** | `f75ad846` = Todo, `47fc9ee4` = In Progress, `98236657` = Done |
 
-All commands use `--owner "@me"` since the project belongs to the authenticated user `santiphap-tw`.
+All commands use `--owner "@me"` since the project belongs to the authenticated user `shumiq`.
 
 ## Workflow
 
@@ -196,7 +196,7 @@ Every GitHub item created or updated by sync includes a link back to its source 
 
 ```
 ---
-*File: https://github.com/santiphap-tw/flightsearch-ai/blob/main/bugs/my-bug-title.md*
+*File: https://github.com/shumiq/showcase-flightsearch/blob/main/bugs/my-bug-title.md*
 ```
 
 This ensures traceability from GitHub back to the source file. On re-sync, any existing `*File:*` footer is stripped and rewritten with the current URL — no duplicates.
@@ -213,7 +213,7 @@ title=$(head -1 "path/to/file.md" | sed 's/^# //')
 
 # Extract relative path and build remote URL
 relative_path=$(echo "path/to/file.md" | sed 's|^\./||')
-remote_url="https://github.com/santiphap-tw/flightsearch-ai/blob/main/$relative_path"
+remote_url="https://github.com/shumiq/showcase-flightsearch/blob/main/$relative_path"
 
 # Extract body (everything after H1 line, trimmed) and strip any stale file link
 # NOTE: Use tail + awk (not GNU sed) for macOS compatibility
@@ -338,7 +338,7 @@ After executing any operation, confirm what was done. Provide the relevant detai
 
 ## Best Practices & Rules
 
-- **Always use `--owner "@me"`** — the project belongs to the authenticated user `santiphap-tw`.
+- **Always use `--owner "@me"`** — the project belongs to the authenticated user `shumiq`.
 - **Use JSON output** when you need to parse item IDs from command output (`--format json` with `-q` for jq filtering).
 - **Confirm before deleting** — never delete an item without asking the user first.
 - **Create then update** — do not try to set field values in the same mutation as creation. You must create the item first, then run a separate edit to set fields like Status.
@@ -349,7 +349,7 @@ After executing any operation, confirm what was done. Provide the relevant detai
   - Status: `PVTSSF_lAHOA5K1Vc4BXH-bzhSXD2s`
   - Status options: `f75ad846` (Todo), `47fc9ee4` (In Progress), `98236657` (Done)
   - Project ID: `PVT_kwHOA5K1Vc4BXH-b`
-- **File link integrity**: Every GitHub item must contain a `*File:*` footer pointing to its source file on GitHub at `https://github.com/santiphap-tw/flightsearch-ai/blob/main/...`. This is automatically managed during sync — always strip stale links before appending fresh ones to avoid duplicates.
+- **File link integrity**: Every GitHub item must contain a `*File:*` footer pointing to its source file on GitHub at `https://github.com/shumiq/showcase-flightsearch/blob/main/...`. This is automatically managed during sync — always strip stale links before appending fresh ones to avoid duplicates.
 - **Escaping**: When passing special characters in query strings, use single quotes and proper escaping.
 
 ## Troubleshooting
