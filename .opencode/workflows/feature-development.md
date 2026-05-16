@@ -73,9 +73,27 @@ Update all project documents (README.md, component docs) to reflect the new chan
 
 ---
 
-## Usage
+## Continue Mode
 
-Run this workflow by invoking each step sequentially via the `/command` palette or manually calling the agents:
+Resume an existing ticket from wherever it left off:
+
+```
+opencode run "Run the feature-development workflow: continue SCRUM-42"
+```
+
+The workflow inspects the ticket state (Jira board column and existing comments) to determine which step to resume:
+
+- **No plan comment** → Step 2 (Create Development Plan)
+- **Plan exists, not in review column** → Step 3 (Implement)
+- **In review column, no verification comment** → Step 4 (Verify)
+- **Verification passed** → Step 5 (Sync Documentation)
+- **In Done column** → Workflow finishes with no action
+
+---
+
+## Fresh Start Usage
+
+Run this workflow by invoking each step sequentially:
 
 ```
 opencode run "Run the feature-development workflow: <feature description>"
