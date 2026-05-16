@@ -41,9 +41,11 @@ Parse the development plan from the comment body. Extract:
 
 Do NOT create any local files. The Jira comment is the single source of truth.
 
-### Step 4: Move Ticket to IN PROGRESS
+### Step 4: Assign Ticket & Move to IN PROGRESS
 
-Use `jira_getTransitionsForJiraIssue` to find the "In Progress" transition ID. Then use `jira_transitionJiraIssue` to move the ticket to IN PROGRESS.
+1. Look up the current user's account ID at the start of the session (use `jira_atlassianUserInfo` to get `account_id`).
+2. Use `jira_editJiraIssue` to assign the ticket to the current user by setting `{"assignee": {"id": "<account_id>"}}`.
+3. Use `jira_getTransitionsForJiraIssue` to find the "In Progress" transition ID. Then use `jira_transitionJiraIssue` to move the ticket to IN PROGRESS.
 
 ### Step 5: Ask for Execution Mode
 
