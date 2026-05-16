@@ -27,6 +27,8 @@ If the user already specified a Jira issue key (e.g., `SCRUM-42`), use it. Other
 - A Jira issue key (e.g., `SCRUM-42`)
 - A ticket title or keyword (e.g., "passenger selector", "dates selector bug")
 
+After selecting the ticket, look up the current user's account ID (`jira_atlassianUserInfo` → `account_id`) and assign the ticket to them using `jira_editJiraIssue` with `{"assignee": {"id": "<account_id>"}}`.
+
 ### Step 2: Read the Ticket from Jira
 
 Use `jira_getJiraIssue` with `cloudId: "06873323-7b4f-4662-8589-74ea341fcba6"` and the issue key (or search by keyword using `jira_searchJiraIssuesUsingJql`). Read the full ticket content to understand:
