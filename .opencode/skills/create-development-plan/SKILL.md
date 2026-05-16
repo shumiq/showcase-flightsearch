@@ -45,7 +45,13 @@ Create the plan at `./plans/{jira-key}-plan.md` (e.g., `SCRUM-42-plan.md`). Use 
 - **Actionable**: Each step should be concrete enough that a developer can execute it without ambiguity
 - **Comprehensive**: Cover unit tests, Storybook stories, component implementation, and integration
 
-### Step 5: Confirm & Summarize
+### Step 5: Post Plan as Jira Comment
+
+1. Use `jira_getJiraIssue` to get the ticket's existing comments.
+2. Check if a development plan comment already exists — if so, the new plan will be posted as an additional comment (there may be multiple plans over time).
+3. Use `jira_addCommentToJiraIssue` to post the full development plan as a comment on the ticket, prefixed with `### 📋 Development Plan` so it can be identified by downstream skills.
+
+### Step 6: Confirm & Summarize
 
 Inform the user that the plan has been created. Provide the file path and briefly summarize the key phases.
 

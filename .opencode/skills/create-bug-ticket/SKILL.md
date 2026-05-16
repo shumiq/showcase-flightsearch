@@ -52,7 +52,8 @@ Use the Jira MCP tool to create the bug issue with these fields:
 | `additional_fields` | `{"priority": {"name": "..."}, "labels": ["..."]}` |
 
 1. Call `jira_createJiraIssue` with the structured data.
-2. If the user mentioned a specific assignee, use `jira_lookupJiraAccountId` to find their account ID and update via `jira_editJiraIssue`.
+2. Move the ticket to the **TODO** column: use `jira_getTransitionsForJiraIssue` to find the "To Do" transition ID, then `jira_transitionJiraIssue` to move it.
+3. If the user mentioned a specific assignee, use `jira_lookupJiraAccountId` to find their account ID and update via `jira_editJiraIssue`.
 
 ### Step 6: Confirm & Summarize
 Inform the user that the ticket has been created. Provide the Jira issue key (e.g., `SCRUM-42`). Briefly mention any interesting technical clues you found during your investigation that were added to the description.
