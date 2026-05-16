@@ -1,13 +1,13 @@
 ---
 name: implement-ticket
-description: Follows a development plan from ./plans to implement code using TDD (Red → Green → Refactor). Supports yolo mode (auto-execute) and approval mode (approve each step).
+description: Follows a development plan from Jira comments to implement code using TDD (Red → Green → Refactor). Supports yolo mode (auto-execute) and approval mode (approve each step).
 ---
 
 # Implement Ticket Skill
 
 ## Description
 
-This skill reads a development plan from `./plans/`, parses its implementation phases, and executes them step-by-step following strict TDD workflow. Every change is transparently reported to the user.
+This skill reads a development plan from a Jira issue's comments (looks for `### 📋 Development Plan`), parses its implementation phases, and executes them step-by-step following strict TDD workflow. Every change is transparently reported to the user.
 
 Use this skill when the user says things like: "implement the plan for farecard", "start working on the passenger selector plan", "execute the development plan", etc.
 
@@ -31,7 +31,7 @@ Parse the development plan from the comment body. Extract:
 - **Checklist items** for final verification
 - **Test patterns** from the code snippets in each phase
 
-Also save the plan content to `./plans/{jira-key}-plan.md` for local reference.
+Do NOT create any local files. The Jira comment is the single source of truth.
 
 ### Step 4: Move Ticket to IN PROGRESS
 

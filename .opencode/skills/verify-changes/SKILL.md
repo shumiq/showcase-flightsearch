@@ -1,6 +1,6 @@
 ---
 name: verify-changes
-description: Verifies that a ticket from bugs/ or stories/ has been fully and correctly implemented by checking coverage, quality, and completeness. Updates ticket status or creates follow-up tickets as needed.
+description: Verifies that a Jira ticket has been fully and correctly implemented by checking coverage, quality, and completeness. Updates ticket status or creates follow-up tickets as needed.
 ---
 
 # Verify Changes Skill
