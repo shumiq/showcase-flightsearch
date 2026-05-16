@@ -69,7 +69,7 @@ Review the implementation against the original ticket. Check coverage, quality, 
 **Agent:** `technical-lead`
 **Skill:** `sync-project`
 
-Update all project documents (README.md, prompt-logs.md, component docs) to reflect the new changes.
+Update all project documents (README.md, component docs) to reflect the new changes.
 
 ---
 
