@@ -1,25 +1,23 @@
 ---
 name: sync-project
-description: Synchronizes Confluence project pages (Project overview and component documentation) with the current state of the codebase. By default syncs changed components only; supports full sync when explicitly requested. The Project page and component docs live under the SCRUM Confluence space.
+description: Synchronizes Confluence project pages (Project overview and component documentation) and local documentation files (AGENTS.md, README.md) with the current state of the codebase. By default syncs changed components only; supports full sync when explicitly requested.
 ---
 
 # Sync Project Skill
 
 ## Description
 
-This skill ensures the Confluence project documentation stays in sync with the codebase. It updates the SCRUM space's Project page and creates/updates component documentation pages under the Components parent page.
+This skill ensures both Confluence project documentation and local documentation files stay in sync with the codebase. It updates the SCRUM space's Project page, creates/updates component documentation pages under the Components parent page, and refreshes AGENTS.md and README.md to reflect the current project state.
 
 By default, it only processes **changed components** for efficiency. If the user explicitly requests a **full sync**, it will scan all components (with confirmation).
 
 Use this skill when the user says things like: "Sync the project", "Update project docs", "Run sync", "Full sync all files", or when invoked from a git precommit hook.
 
-No local files are created — Confluence is the single source of truth for documentation.
-
 ## Delegation
 
 Delegate execution to the specialist subagent before playing the skill:
 
-1. Use `Task` tool with `subagent_type: "technical-lead"` to execute the **full workflow** (Steps 1–4).
+1. Use `Task` tool with `subagent_type: "technical-lead"` to execute the **full workflow** (Steps 1–5).
 2. Pass the user's input and Confluence constants (`spaceId: "65859"`, Project page ID `65986`, Components page ID `98459`) in the `prompt`.
 3. After subagent completes, present the sync summary to the user.
 
@@ -43,6 +41,10 @@ When running in default mode, only process component files that have been modifi
 1. **Get changed files:**
    ```bash
    git diff --cached --name-only
+   ```
+   Also check unstaged changes:
+   ```bash
+   git diff --name-only
    ```
 
 2. **Filter relevant files:**
@@ -73,12 +75,47 @@ When user explicitly requests full sync and confirms:
    - Compare with actual project state and update as needed.
    - Include sections for: project overview, tech stack, components built, AI agents table, development workflow, AI skills table, and project structure.
 
-### Step 4: Summary
+### Step 4: Sync Local Documentation Files
+
+After updating Confluence, sync the local documentation files to match the current project state. These files are checked into version control and serve as the authoritative source for agent instructions and project overview.
+
+#### 4a. Update AGENTS.md
+
+Read the current `AGENTS.md` and update these sections:
+
+**Available Agents table:**
+- Read all agent definitions from `.opencode/agents/*.md` files
+- Extract the description from each file's frontmatter
+- Build the table rows with: Agent name, Description (from frontmatter), Entry point (`Task` tool with `subagent_type: "<name>"`)
+- The `technical-lead` row should include "Determines ticket types, creates task tickets," prefix from the `create-ticket` skill logic
+
+**Workflow section (feature-development):**
+- Read `.opencode/workflows/feature-development.md`
+- Extract Step numbers, Agents, Skills, and Descriptions from each step's heading and body
+- Reconstruct the workflow table rows
+- Update the Fresh Start and Continue Mode invocation commands to match the workflow file
+
+**Preserve** all other content (headers, integration sections, usage examples) — only update the agent table and workflow table.
+
+#### 4b. Update README.md
+
+Read the current `README.md` and update these sections:
+
+**Available AI Agent Skills table:**
+- Read all skill definitions from `.opencode/skills/*/SKILL.md` files
+- Extract the name (from frontmatter) and description (from frontmatter) for each skill
+- Build the table with: Skill name, Description, Source of Truth
+  - For source of truth, infer from context: skills that create Jira issues → "Jira (SCRUM project)", skills that use Confluence → "Confluence (SCRUM space)", `implement-ticket` → "`./src/components/...`", `create-development-plan` → "Jira comment"
+- Sort alphabetically by skill name
+- Replace only the skills table section — preserve all other content
+
+### Step 5: Summary
 
 Provide a concise summary of what was done:
 
 - Components documented/updated on Confluence
 - Project page updated
+- Local files updated (AGENTS.md, README.md)
 - Any issues found (e.g., missing tests, outdated docs)
 
 ## Rules & Best Practices
@@ -86,9 +123,9 @@ Provide a concise summary of what was done:
 - **Default to changed files:** Always use Changed Files Mode unless user explicitly requests full sync
 - **User confirmation:** Ask for confirmation only when user requests full sync
 - **No hallucination:** Base all updates on actual file content, not assumptions
-- **Follow existing patterns:** Match the format of existing Confluence documentation
+- **Follow existing patterns:** Match the format of existing Confluence documentation and local markdown files
 - **Respect AGENTS.md:** Follow the prompt logging rules exactly
 - **Date format:** Use YYYY-MM-DD for all dates
-- **No local files:** Do not create or write any local markdown files — Confluence is the single source of truth
+- **Preserve non-table content:** When updating AGENTS.md and README.md, only modify the specific tables and sections — keep everything else intact
 
 *Generated by opencode*

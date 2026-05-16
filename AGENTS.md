@@ -44,7 +44,7 @@ End-to-end pipeline: **Concept → Ticket → Plan → Code → Verify → Docum
 |------|-------|-------|-------------|
 | 1 | `technical-lead` (triage) → delegates to `technical-business-analyst` (story/bug) or handles directly (task) | `create-ticket` | Create a Jira issue from requirements |
 | 2 | `technical-lead` | `create-development-plan` | Break ticket into step-by-step implementation phases |
-| 3 | `software-developer` | `implement-ticket` | Execute plan using TDD |
+| 3 | `software-developer` | `implement-ticket` | Execute plan using TDD (Red → Green → Refactor) |
 | 4 | `quality-analyst` | `verify-changes` | Review implementation against requirements |
 | 5 | `technical-lead` | `sync-project` | Sync documentation to reflect changes |
 
