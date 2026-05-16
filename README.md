@@ -66,8 +66,7 @@ This project includes specialized skills to help the AI agent work more effectiv
 
 | Skill | Description | Source of Truth |
 |-------|-------------|-----------------|
-| **create-bug-ticket** | Transforms fuzzy bug descriptions into structured Jira bug tickets with investigation findings | Jira (SCRUM project) |
-| **create-story-ticket** | Converts feature requests into professional Jira story tickets with acceptance criteria | Jira (SCRUM project) |
+| **create-ticket** | Unified ticket creation for bugs, stories, and tasks — determines type, gathers requirements, and creates structured Jira issues | Jira (SCRUM project) |
 | **create-development-plan** | Creates TDD-based development plans from Jira tickets with phased implementation | Jira comment |
 | **implement-ticket** | Executes a development plan from Jira comments using TDD (Red → Green → Refactor) | `./src/components/...` |
 | **generate-document** | Generates comprehensive technical documentation for any component | Confluence (SCRUM space) |

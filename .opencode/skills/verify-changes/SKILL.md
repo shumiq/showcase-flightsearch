@@ -138,8 +138,7 @@ Based on the investigation and quality audit, determine one of these outcomes:
 | Follow-Up Type | Action | When to Use |
 |----------------|--------|-------------|
 | **Development Plan** | Add `### 📋 Development Plan` comment + move to TODO | The implementation approach was wrong or incomplete and needs re-planning before re-implementation |
-| **create-bug-ticket** | Create Bug in TODO + move original to DONE | New bugs found in the implementation (regressions, broken behavior) |
-| **create-story-ticket** | Create Story in TODO + move original to DONE | Missing features or new requirements discovered during verification |
+| **create-ticket** | Create Bug/Story/Task in TODO + move original to DONE | New bugs, missing features, or follow-up tasks discovered during verification |
 
 3. Act based on the follow-up type:
 

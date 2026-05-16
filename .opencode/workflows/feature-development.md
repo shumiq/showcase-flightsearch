@@ -16,10 +16,10 @@ Full lifecycle: **Concept → Ticket → Plan → Code → Verify → Document**
 
 ## Step 1: Create Ticket
 
-**Agent:** `technical-business-analyst`
-**Skill:** `create-story-ticket` / `create-bug-ticket`
+**Agent:** `technical-lead` (triage) → delegates to `technical-business-analyst` (story/bug) or handles directly (task)
+**Skill:** `create-ticket`
 
-Gather requirements from the user for a new feature or bug fix. Investigate the codebase, ask clarifying questions, and create a professional issue in the SCRUM Jira project.
+Gather requirements from the user for a new feature, bug fix, or maintenance task. Investigate the codebase, ask clarifying questions, and create a professional issue in the SCRUM Jira project.
 
 **Output:** Jira issue key (e.g., `SCRUM-42`).
 
