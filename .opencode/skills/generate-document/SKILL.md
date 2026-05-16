@@ -1,6 +1,6 @@
 ---
 name: generate-document
-description: Generates comprehensive technical documentation for a specified component. Investigates the codebase, analyzes the component's props, dependencies, usage patterns, and outputs a structured developer-focused document under ./docs.
+description: Generates comprehensive technical documentation for a specified component. Investigates the codebase, analyzes the component's props, dependencies, usage patterns, and outputs a structured developer-focused document under ./docs. Also syncs the generated document to the Confluence SCRUM space under the Components page.
 ---
 
 # Generate Document Skill
@@ -47,9 +47,24 @@ Ensure the `./docs/` directory exists (create it if not). Create the file at `./
 
 Fill in every section with accurate information derived from code investigation. Do not leave sections blank — if a section does not apply, write "N/A" or remove it.
 
-### Step 4: Confirm & Summarize
+### Step 4: Sync to Confluence
 
-Inform the user that the document has been created. Provide the file path and briefly summarize:
+After generating the local document, sync it to the Confluence SCRUM space:
+
+1. **Find or create the child page** under the Components page (`https://shumiq.atlassian.net/wiki/spaces/SCRUM/pages/98459/Components`):
+   - Use `jira_getPagesInConfluenceSpace` with `spaceId: "65859"`, then filter results where `parentId === "98459"` to find existing child pages.
+   - If a child page with the component's name already exists, update it using `jira_updateConfluencePage`.
+   - If no child page exists, create one using `jira_createConfluencePage` with `spaceId: "65859"`, `parentId: "98459"`, and `contentType: "page"`.
+
+2. **Page title**: Use the component name (e.g., "FlightSearch").
+
+3. **Page body**: Convert the generated markdown document to Confluence-compatible format using `contentFormat: "markdown"`.
+
+4. **Verify**: Confirm the page was created/updated successfully.
+
+### Step 5: Confirm & Summarize
+
+Inform the user that the document has been created and synced to Confluence. Provide the file path and Confluence page URL, and briefly summarize:
 - The component's primary purpose.
 - How many props it exposes.
 - Whether it's standalone or has dependencies/dependents.

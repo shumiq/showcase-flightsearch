@@ -15,7 +15,7 @@ Use this skill when the user says things like: "implement the plan for farecard"
 
 ### Step 1: Identify the Plan
 
-If the user already specified a plan file (e.g., `farecard-promotional-component-plan.md`), use it. Otherwise, list the available plans in `./plans/` and ask the user to choose.
+If the user already specified a plan file (e.g., `farecard-promotional-component-plan.md`), use it. If the user specified a Jira issue key (e.g., `SCRUM-42`), look for a matching plan in `./plans/` — plans created by `create-development-plan` include the Jira key in their filename or content. Otherwise, list the available plans in `./plans/` and ask the user to choose.
 
 ### Step 2: Read and Parse the Plan
 
@@ -76,6 +76,12 @@ Provide a summary of what was implemented:
 - Test results
 - Any deviations from the plan
 - Checklist status
+
+### Step 7: Update Jira Issue (optional)
+
+If the plan references a Jira issue key, consider updating the issue:
+1. Use `jira_transitionJiraIssue` to move the issue to "In Review" or "Done" (check available transitions with `jira_getTransitionsForJiraIssue`)
+2. Use `jira_addCommentToJiraIssue` to add an implementation summary with key file paths and test results
 
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: sync-project
-description: Synchronizes project files (README.md, and component documentation) with the current state of the codebase. By default syncs changed files only; supports full sync when explicitly requested.
+description: Synchronizes project files (README.md, and component documentation) with the current state of the codebase. By default syncs changed files only; supports full sync when explicitly requested. README.md is synced to the Confluence SCRUM space under the Project page, and component docs are synced under the Components page.
 ---
 
 # Sync Project Skill
@@ -79,7 +79,17 @@ When user explicitly requests full sync and confirms:
      - Available skills (check `.agents/skills/` directory)
    - Update README.md to match current state
 
-### Step 4: Apply Changes
+### Step 4: Sync README.md to Confluence Project Page
+
+After applying local changes to README.md, sync it to the Confluence SCRUM space:
+
+1. **Update the Project page** at `https://shumiq.atlassian.net/wiki/spaces/SCRUM/pages/65986/Project`:
+   - Use `jira_getConfluencePage` with `pageId: "65986"` and `cloudId: "06873323-7b4f-4662-8589-74ea341fcba6"` to get current page content.
+   - Convert the README.md content to markdown and update using `jira_updateConfluencePage` with `pageId: "65986"`, `cloudId: "06873323-7b4f-4662-8589-74ea341fcba6"`, `contentFormat: "markdown"`.
+
+2. **Component documentation sync** is handled by the `generate-document` skill's Step 4 (Confluence sync).
+
+### Step 5: Apply Changes
 
 After investigation:
 

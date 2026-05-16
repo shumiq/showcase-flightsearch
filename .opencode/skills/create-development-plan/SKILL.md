@@ -7,7 +7,7 @@ description: Creates a detailed TDD-based development plan from a bug or story t
 
 ## Description
 
-This skill reads a ticket from `./bugs/` or `./stories/` and produces a comprehensive, TDD-driven development plan tailored for developers. The plan breaks down the work into phases: test-first design, component architecture, unit tests, Storybook stories, and implementation.
+This skill reads a ticket from Jira (SCRUM project) and produces a comprehensive, TDD-driven development plan tailored for developers. The plan breaks down the work into phases: test-first design, component architecture, unit tests, Storybook stories, and implementation.
 
 Use this skill when the user says things like: "create a plan for this ticket", "how should I approach this bug", "plan out the passenger selector story", etc.
 
@@ -16,17 +16,16 @@ Use this skill when the user says things like: "create a plan for this ticket", 
 ### Step 1: Ask for the Ticket
 
 If the user hasn't specified a ticket, ask them which ticket they want a plan for. Accept either:
-- A ticket filename (e.g., `add-passenger-selector-to-flight-search.md`)
+- A Jira issue key (e.g., `SCRUM-42`)
 - A ticket title or keyword (e.g., "passenger selector", "dates selector bug")
-- A path (e.g., `./stories/add-passenger-selector-to-flight-search.md`)
 
-### Step 2: Locate and Read the Ticket
+### Step 2: Read the Ticket from Jira
 
-Search for the ticket in `./bugs/` and `./stories/` directories. Read the full ticket content to understand:
+Use `jira_getJiraIssue` with `cloudId: "06873323-7b4f-4662-8589-74ea341fcba6"` and the issue key (or search for it by keyword using `jira_searchJiraIssuesUsingJql`). Read the full ticket content to understand:
 - The problem or feature requirements
-- Acceptance criteria (for stories)
-- Investigation findings and suspected files
-- Any technical context or constraints
+- Acceptance criteria (from the description)
+- Investigation findings and technical context
+- Any constraints noted in the description or comments
 
 ### Step 3: Investigate the Codebase
 
@@ -40,7 +39,7 @@ Perform code investigation to understand the current state:
 
 ### Step 4: Generate the Development Plan
 
-Create the plan at `./plans/{ticket-filename}` (strip `.md` and append `-plan.md`). Use the template below. The plan should be:
+Create the plan at `./plans/{jira-key}-plan.md` (e.g., `SCRUM-42-plan.md`). Use the template below. The plan should be:
 - **TDD-focused**: Every implementation step is preceded by its corresponding test
 - **Technical**: Use precise terminology (props, interfaces, hooks, mocks, render cycles, etc.)
 - **Actionable**: Each step should be concrete enough that a developer can execute it without ambiguity
@@ -57,7 +56,7 @@ Inform the user that the plan has been created. Provide the file path and briefl
 ```markdown
 # Development Plan: {ticket title}
 
-**Source Ticket:** `./{bugs|stories}/{ticket-filename}`
+**Source Ticket:** `SCRUM-42` (Jira)
 **Date Created:** {YYYY-MM-DD}
 **Approach:** Test-Driven Development (TDD)
 
@@ -279,7 +278,7 @@ Run: `pnpm test -- --run` — confirm **all** tests pass (new + existing).
 - **Storybook coverage**: Stories must cover all component states (default, disabled, empty, loading, error, interactive).
 - **Be specific**: Use exact file paths, function names, prop types, and assertion expectations.
 - **Follow existing patterns**: Reference the actual test and story patterns found during code investigation.
-- **Kebab-case filenames**: Plan files go in `./plans/{ticket-name-in-kebab-case}-plan.md`.
+- **Plan filename format**: Plan files go in `./plans/{jira-key}-plan.md` (e.g., `./plans/SCRUM-42-plan.md`).
 - **Date format**: Always use YYYY-MM-DD.
 - **Adapt to ticket type**:
   - **Bug tickets**: Focus on regression tests first, then the fix. Include a test that reproduces the bug before fixing.
