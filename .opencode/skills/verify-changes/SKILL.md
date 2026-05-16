@@ -7,7 +7,7 @@ description: Verifies that a ticket from bugs/ or stories/ has been fully and co
 
 ## Description
 
-This skill reads a ticket from `./bugs/` or `./stories/`, investigates the codebase to verify that everything in the ticket has been properly implemented, evaluates code quality (production readiness, clean code, test coverage, typos, readability, TypeScript strictness), and either marks the ticket as done or creates follow-up work.
+This skill reads a ticket from Jira (SCRUM project), investigates the codebase to verify that everything in the ticket has been properly implemented, evaluates code quality (production readiness, clean code, test coverage, typos, readability, TypeScript strictness), and either transitions the issue to Done or creates follow-up Jira tickets.
 
 Use this skill when the user says things like: "verify the changes", "check the ticket", "review implementation", "is the bug fixed?", "validate the story", "quality check the ticket", or when a development plan has been completed and needs verification.
 
@@ -16,13 +16,12 @@ Use this skill when the user says things like: "verify the changes", "check the 
 ### Step 1: Identify the Ticket
 
 If the user hasn't specified a ticket, ask them which ticket to verify. Accept either:
-- A ticket filename (e.g., `dates-selector-mobile-panel-unexpected-close.md`)
+- A Jira issue key (e.g., `SCRUM-42`)
 - A ticket title or keyword (e.g., "passenger selector", "dates selector bug")
-- A path (e.g., `./bugs/dates-selector-mobile-panel-unexpected-close.md`)
 
-### Step 2: Locate and Read the Ticket
+### Step 2: Read the Ticket from Jira
 
-Search for the ticket in `./bugs/` and `./stories/` directories. Read the full ticket content to understand:
+Use `jira_getJiraIssue` with `cloudId: "06873323-7b4f-4662-8589-74ea341fcba6"` and the issue key (or search by keyword using `jira_searchJiraIssuesUsingJql`). Read the full ticket content to understand:
 - **For bugs:** Description, steps to reproduce, expected/actual behavior, investigation findings, suspected root cause
 - **For stories:** Description, requirements, scope, acceptance criteria, technical notes, suggested implementation steps
 
@@ -37,7 +36,7 @@ Conduct thorough codebase investigation to verify the ticket is properly address
 4. **Check Storybook files** — read corresponding `*.stories.tsx` files (if applicable)
 
 #### For bug tickets specifically:
-- Verify the root cause identified in "Investigation Findings" is actually fixed
+- Verify the root cause identified in the Jira description is actually fixed
 - Confirm the fix doesn't break the expected behavior described in the ticket
 - Check for regression test coverage that reproduces the bug
 
@@ -87,21 +86,19 @@ Based on the investigation and quality audit, determine one of these outcomes:
 | **Minor Issues** | Core functionality is implemented correctly, but there are small quality issues (typos, minor cleanup, missing edge case test, missing Storybook story, etc.). |
 | **Needs Follow-Up** | Significant gaps found: missing features, untested code, broken tests, incomplete fixes, TypeScript errors, or production-readiness concerns. |
 
-### Step 7a: If All Good — Update Ticket Status
+### Step 7a: If All Good — Transition Jira Issue to Done
 
-1. Update the ticket's `**Status:**` line from `Open` or `In Progress` to `Done`
-2. Add a verification section at the bottom of the ticket:
+1. Use `jira_getTransitionsForJiraIssue` to find the "Done" transition ID for the issue.
+2. Use `jira_transitionJiraIssue` to move the issue to Done.
+3. Use `jira_addCommentToJiraIssue` to add the verification summary:
 
 ```markdown
----
-
-## Verification Results
+### Verification Results
 
 **Verified on:** {YYYY-MM-DD}
 **Status:** ✅ Passed
 
-### Quality Audit Summary
-
+#### Quality Audit
 | Dimension | Result |
 |-----------|--------|
 | Coverage | ✅ All requirements/AC covered |
@@ -113,13 +110,11 @@ Based on the investigation and quality audit, determine one of these outcomes:
 | Readability | ✅ Clear |
 | Typos / Consistency | ✅ Clean |
 
-### Verification Commands
-
+#### Commands
 | Command | Result |
 |---------|--------|
 | `pnpm test -- --run` | ✅ Passed |
 | `tsc --noEmit` | ✅ Passed |
-| `{lint command}` | ✅ Passed |
 
 ---
 
@@ -132,22 +127,21 @@ Based on the investigation and quality audit, determine one of these outcomes:
 2. Ask the user: "I found some minor issues. Would you like me to fix them?"
 3. If user agrees, fix the issues directly
 4. After fixing, run verification commands again
-5. If all pass after fixes, proceed to Step 7a (update ticket to Done)
+5. If all pass after fixes, proceed to Step 7a (transition issue to Done)
 
-### Step 7c: If Needs Follow-Up — Create Follow-Up Tickets
+### Step 7c: If Needs Follow-Up — Create Follow-Up Jira Issues
 
 1. Present the full findings to the user
 2. Determine what kind of follow-up is needed:
 
-| Follow-Up Type | When to Use |
-|----------------|-------------|
-| **create-bug-ticket** | New bugs found in the implementation (regressions, broken behavior) |
-| **create-story-ticket** | Missing features or new requirements discovered during verification |
-| **create-development-plan** | The existing implementation needs a structured plan for fixes/improvements |
+| Follow-Up Type | Jira Issue Type | When to Use |
+|----------------|-----------------|-------------|
+| **create-bug-ticket** | Bug | New bugs found in the implementation (regressions, broken behavior) |
+| **create-story-ticket** | Story | Missing features or new requirements discovered during verification |
 
-3. Use the appropriate skill to create the follow-up ticket
-4. Do NOT update the original ticket to "Done" if there are follow-up items
-5. Instead, add a "Verification Results" section noting the gaps
+3. Use the appropriate skill to create the follow-up Jira issue
+4. Link original ↔ follow-up using `jira_createIssueLink` with type "Relates"
+5. Add a verification comment to the original issue noting the gaps (do NOT transition it to Done)
 
 ### Step 8: Report Summary
 
@@ -156,7 +150,7 @@ Present a comprehensive summary to the user with:
 ```
 ## Verification Report: {Ticket Title}
 
-**Source:** `./{bugs|stories}/{ticket-filename}`
+**Source:** `{Jira issue key, e.g., SCRUM-42}`
 **Result:** ✅ All Good | ⚠️ Minor Issues | ❌ Needs Follow-Up
 
 ### What Was Checked
@@ -193,8 +187,8 @@ Present a comprehensive summary to the user with:
 - **Run actual commands:** Always run `pnpm test -- --run` and typecheck. Do not guess test results.
 - **Be specific in findings:** Reference exact file paths and line numbers when reporting issues.
 - **Don't over-fix:** Only address what's relevant to the ticket. Do not refactor unrelated code.
-- **Ticket status discipline:** Only set a ticket to "Done" if ALL items are verified and all quality checks pass.
-- **Follow-up over silence:** If there are gaps, always create follow-up tickets rather than ignoring them.
+- **Transition discipline:** Only transition an issue to "Done" if ALL items are verified and all quality checks pass.
+- **Follow-up over silence:** If there are gaps, always create follow-up Jira issues rather than ignoring them.
 - **Date format:** Always use YYYY-MM-DD.
 - **Prompt logging:** Remember to log prompts per AGENTS.md instructions.
 - **Respect existing patterns:** Use the same format as existing tickets and documentation.

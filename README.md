@@ -6,6 +6,11 @@ A demonstration of AI agent capabilities in building a complete React UI compone
 
 🚀 **[View Live Demo](https://shumiq.github.io/showcase-flightsearch)**
 
+## Project Management
+
+📋 **[Jira Board](https://shumiq.atlassian.net/jira/software/projects/SCRUM/boards/1)**
+📄 **[Confluence Project Page](https://shumiq.atlassian.net/wiki/spaces/SCRUM/pages/65986/Project)**
+
 ## What Was Built
 
 The AI agent built a fully functional **FlightSearch** component consisting of:
