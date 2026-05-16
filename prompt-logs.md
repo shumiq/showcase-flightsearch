@@ -265,4 +265,10 @@
 
 ---
 
-*Last updated: 2026-05-09*
+### 41. Create Feature Development Workflow
+**Prompt:**
+> Create workflow from @.opencode\workflows\revise-me.md
+
+---
+
+*Last updated: 2026-05-16*
