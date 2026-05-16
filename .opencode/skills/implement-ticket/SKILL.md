@@ -13,26 +13,38 @@ Use this skill when the user says things like: "implement the plan for farecard"
 
 ## Workflow
 
-### Step 1: Identify the Plan
+### Step 1: Select the Ticket
 
-If the user already specified a plan file (e.g., `farecard-promotional-component-plan.md`), use it. If the user specified a Jira issue key (e.g., `SCRUM-42`), look for a matching plan in `./plans/` — plans created by `create-development-plan` include the Jira key in their filename or content. Otherwise, list the available plans in `./plans/` and ask the user to choose.
+If the user already specified a Jira issue key (e.g., `SCRUM-42`), use it. Otherwise, search for issues in the SCRUM project that are in the **TODO** column using `jira_searchJiraIssuesUsingJql` with a JQL query like `project = SCRUM AND status = "To Do" ORDER BY created ASC`. Present the list to the user and ask which one to implement.
 
-### Step 2: Read and Parse the Plan
+### Step 2: Read Comments for a Development Plan
 
-Read the full plan file. Extract:
+Use `jira_getJiraIssue` to retrieve the ticket's comments. Search for comments that contain `### 📋 Development Plan`. If no such comment exists, **reject the ticket** and inform the user: *"No development plan found in the ticket's comments. Please create a development plan first using the create-development-plan skill."*
+
+If multiple development plan comments exist, **choose the latest one** (by created date).
+
+### Step 3: Extract the Plan from the Comment
+
+Parse the development plan from the comment body. Extract:
 - **Plan phases** (Phase 1, Phase 2, etc.) and their sub-steps
 - **Files to create/modify** from the File Change Summary
 - **Checklist items** for final verification
 - **Test patterns** from the code snippets in each phase
 
-### Step 3: Ask for Execution Mode
+Also save the plan content to `./plans/{jira-key}-plan.md` for local reference.
+
+### Step 4: Move Ticket to IN PROGRESS
+
+Use `jira_getTransitionsForJiraIssue` to find the "In Progress" transition ID. Then use `jira_transitionJiraIssue` to move the ticket to IN PROGRESS.
+
+### Step 5: Ask for Execution Mode
 
 Prompt the user to choose one of two modes:
 
 1. **YOLO Mode** — Execute all phases automatically without pausing. Every step is reported after completion but the agent proceeds immediately.
 2. **Approval Mode** — Before each sub-step (e.g., before writing tests, before implementing, before running commands), pause and ask the user to approve.
 
-### Step 4: Execute the Plan
+### Step 6: Execute the Plan
 
 For each phase in the plan, execute its sub-steps in order, following the TDD cycle:
 
@@ -61,7 +73,7 @@ For each phase in the plan, execute its sub-steps in order, following the TDD cy
 3. Verify by checking the file exists and matches the plan requirements
 4. Report the result
 
-### Step 5: Run Final Checklist
+### Step 7: Run Final Checklist
 
 After all phases are complete, execute the checklist items from the plan:
 1. Run `pnpm test -- --run` and confirm all pass
@@ -69,7 +81,7 @@ After all phases are complete, execute the checklist items from the plan:
 3. Build storybook if needed (`pnpm run build-storybook`)
 4. Report the final result
 
-### Step 6: Report Summary
+### Step 7 (cont.): Report Summary
 
 Provide a summary of what was implemented:
 - Files created/modified
@@ -77,11 +89,11 @@ Provide a summary of what was implemented:
 - Any deviations from the plan
 - Checklist status
 
-### Step 7: Update Jira Issue (optional)
+### Step 8: Move Ticket to IN REVIEW
 
-If the plan references a Jira issue key, consider updating the issue:
-1. Use `jira_transitionJiraIssue` to move the issue to "In Review" or "Done" (check available transitions with `jira_getTransitionsForJiraIssue`)
-2. Use `jira_addCommentToJiraIssue` to add an implementation summary with key file paths and test results
+1. Use `jira_getTransitionsForJiraIssue` to find the "In Review" transition ID.
+2. Use `jira_transitionJiraIssue` to move the ticket to IN REVIEW.
+3. Use `jira_addCommentToJiraIssue` to add an implementation summary with key file paths and test results.
 
 ---
 

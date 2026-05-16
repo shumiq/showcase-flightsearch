@@ -13,9 +13,9 @@ Use this skill when the user says things like: "verify the changes", "check the 
 
 ## Workflow
 
-### Step 1: Identify the Ticket
+### Step 1: Select the Ticket
 
-If the user hasn't specified a ticket, ask them which ticket to verify. Accept either:
+If the user already specified a Jira issue key (e.g., `SCRUM-42`), use it. Otherwise, search for issues in the SCRUM project that are in the **REVIEW** column using `jira_searchJiraIssuesUsingJql` with a JQL query like `project = SCRUM AND status = "In Review" ORDER BY updated ASC`. Present the list to the user and ask which one to verify. Accept either:
 - A Jira issue key (e.g., `SCRUM-42`)
 - A ticket title or keyword (e.g., "passenger selector", "dates selector bug")
 
@@ -83,8 +83,7 @@ Based on the investigation and quality audit, determine one of these outcomes:
 | Outcome | Condition |
 |---------|-----------|
 | **All Good** | Every requirement/AC/bug fix is properly covered. All quality checks pass. All verification commands succeed. |
-| **Minor Issues** | Core functionality is implemented correctly, but there are small quality issues (typos, minor cleanup, missing edge case test, missing Storybook story, etc.). |
-| **Needs Follow-Up** | Significant gaps found: missing features, untested code, broken tests, incomplete fixes, TypeScript errors, or production-readiness concerns. |
+| **Needs Follow-Up** | Any issues found: missing features, untested code, broken tests, incomplete fixes, TypeScript errors, production-readiness concerns, typos, or any other gaps. |
 
 ### Step 7a: If All Good — Transition Jira Issue to Done
 
@@ -121,27 +120,30 @@ Based on the investigation and quality audit, determine one of these outcomes:
 *Verified by opencode*
 ```
 
-### Step 7b: If Minor Issues — Report and Offer to Fix
-
-1. Present the findings to the user in a clear summary
-2. Ask the user: "I found some minor issues. Would you like me to fix them?"
-3. If user agrees, fix the issues directly
-4. After fixing, run verification commands again
-5. If all pass after fixes, proceed to Step 7a (transition issue to Done)
-
-### Step 7c: If Needs Follow-Up — Create Follow-Up Jira Issues
+### Step 7b: If Needs Follow-Up — Create Development Plan or Follow-Up Ticket
 
 1. Present the full findings to the user
 2. Determine what kind of follow-up is needed:
 
-| Follow-Up Type | Jira Issue Type | When to Use |
-|----------------|-----------------|-------------|
-| **create-bug-ticket** | Bug | New bugs found in the implementation (regressions, broken behavior) |
-| **create-story-ticket** | Story | Missing features or new requirements discovered during verification |
+| Follow-Up Type | Action | When to Use |
+|----------------|--------|-------------|
+| **Development Plan** | Add `### 📋 Development Plan` comment + move to TODO | The implementation approach was wrong or incomplete and needs re-planning before re-implementation |
+| **create-bug-ticket** | Create Bug in TODO + move original to DONE | New bugs found in the implementation (regressions, broken behavior) |
+| **create-story-ticket** | Create Story in TODO + move original to DONE | Missing features or new requirements discovered during verification |
 
-3. Use the appropriate skill to create the follow-up Jira issue
-4. Link original ↔ follow-up using `jira_createIssueLink` with type "Relates"
-5. Add a verification comment to the original issue noting the gaps (do NOT transition it to Done)
+3. Act based on the follow-up type:
+
+#### If Development Plan:
+- Create the development plan (following the create-development-plan workflow).
+- Post the plan as a comment on the current issue prefixed with `### 📋 Development Plan`.
+- Post a verification comment noting the gaps and that a re-plan has been created.
+- Use `jira_getTransitionsForJiraIssue` to find the "To Do" transition ID, then `jira_transitionJiraIssue` to move the current issue to TODO.
+
+#### If New Ticket (Bug/Story):
+- Use the appropriate skill to create the follow-up Jira issue (it will be placed in TODO by that skill).
+- Post a verification comment on the **original** issue noting the gaps and linking to the follow-up ticket.
+- Use `jira_getTransitionsForJiraIssue` to find the "Done" transition ID, then `jira_transitionJiraIssue` to move the **original** issue to Done.
+- Link original ↔ follow-up using `jira_createIssueLink` with type "Relates".
 
 ### Step 8: Report Summary
 
