@@ -30,7 +30,7 @@ This project is an AI agent showcase. Follow these rules in every session.
 | Agent | Description | Entry Point |
 |-------|-------------|-------------|
 | **technical-business-analyst** | Gathers requirements, performs early technical analysis, creates story/bug tickets | `Task` tool with `subagent_type: "technical-business-analyst"` |
-| **technical-lead** | Breaks down tickets into dev plans, generates documentation, syncs project docs | `Task` tool with `subagent_type: "technical-lead"` |
+| **technical-lead** | Determines ticket types, creates task tickets, breaks down tickets into dev plans, generates documentation, syncs project docs | `Task` tool with `subagent_type: "technical-lead"` |
 | **software-developer** | Executes dev plans precisely using TDD (Red → Green → Refactor) | `Task` tool with `subagent_type: "software-developer"` |
 | **quality-analyst** | Reviews code against ticket requirements, runs automated verification | `Task` tool with `subagent_type: "quality-analyst"` |
 
@@ -42,7 +42,7 @@ End-to-end pipeline: **Concept → Ticket → Plan → Code → Verify → Docum
 
 | Step | Agent | Skill | Description |
 |------|-------|-------|-------------|
-| 1 | `technical-business-analyst` | `create-story-ticket` / `create-bug-ticket` | Create a Jira issue from requirements |
+| 1 | `technical-lead` (triage) → delegates to `technical-business-analyst` (story/bug) or handles directly (task) | `create-ticket` | Create a Jira issue from requirements |
 | 2 | `technical-lead` | `create-development-plan` | Break ticket into step-by-step implementation phases |
 | 3 | `software-developer` | `implement-ticket` | Execute plan using TDD |
 | 4 | `quality-analyst` | `verify-changes` | Review implementation against requirements |
