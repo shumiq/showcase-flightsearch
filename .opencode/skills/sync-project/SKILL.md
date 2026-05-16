@@ -1,13 +1,13 @@
 ---
 name: sync-project
-description: Synchronizes project files (README.md, prompt-logs.md, and component documentation) with the current state of the codebase. By default syncs changed files only; supports full sync when explicitly requested.
+description: Synchronizes project files (README.md, and component documentation) with the current state of the codebase. By default syncs changed files only; supports full sync when explicitly requested.
 ---
 
 # Sync Project Skill
 
 ## Description
 
-This skill ensures the project documentation stays in sync with the codebase. It updates `README.md`, `prompt-logs.md`, and generates/updates component documentation under `./docs/`.
+This skill ensures the project documentation stays in sync with the codebase. It updates `README.md`, and generates/updates component documentation under `./docs/`.
 
 By default, it only processes **changed files** for efficiency. If the user explicitly requests a **full sync**, it will scan all files (with confirmation).
 
@@ -23,7 +23,7 @@ By default, the skill runs in **Changed Files Mode** (only processes modified fi
 
 **Check if user wants full sync:**
 - If the user's prompt contains phrases like "full sync", "all files", "entire project", ask for confirmation:
-  > "This will check ALL project files (README.md, prompt-logs.md, and all components). This may take longer. Do you want to proceed with a full sync?"
+  > "This will check ALL project files (README.md, and all components). This may take longer. Do you want to proceed with a full sync?"
 - If user confirms, proceed to Step 3 (Full Scan Mode)
 - If user cancels or doesn't confirm, proceed to Step 2 (Changed Files Mode)
 
@@ -42,7 +42,7 @@ When running in default mode, only process files that have been modified:
 
 2. **Filter relevant files:**
    - Components: `src/components/**/*.tsx`
-   - Documentation: `README.md`, `prompt-logs.md`
+   - Documentation: `README.md`
    - Docs folder: `docs/**/*.md`
 
 3. **Process each changed component:**
@@ -57,10 +57,6 @@ When running in default mode, only process files that have been modified:
      - Tech stack
      - Available scripts
      - Project structure
-
-5. **Update prompt-logs.md if needed:**
-   - Check if the last prompt was logged
-   - If not, append the missing prompt(s) following the format in AGENTS.md
 
 ### Step 3: Full Scan Mode (Explicit Request)
 
@@ -83,12 +79,6 @@ When user explicitly requests full sync and confirms:
      - Available skills (check `.agents/skills/` directory)
    - Update README.md to match current state
 
-3. **Update prompt-logs.md:**
-   - Read current `prompt-logs.md`
-   - Check if the "Last updated" date is current
-   - Following AGENTS.md rules, ensure all prompts have been logged
-   - Note: Only log prompts that haven't been logged yet (check last entry number)
-
 ### Step 4: Apply Changes
 
 After investigation:
@@ -98,12 +88,7 @@ After investigation:
    - Maintain the existing format and structure
    - Update the "Last updated" date if changes were made
 
-2. **For prompt-logs.md updates:**
-   - Only append new prompts following the AGENTS.md format
-   - Use the exact prompt text from user messages
-   - Increment the prompt number correctly
-
-3. **For component documentation:**
+2. **For component documentation:**
    - Use the `generate-document` skill for each component that needs docs
    - This will create/update `./docs/{component-name}.md`
 

@@ -116,7 +116,6 @@ Each plan follows this structure:
 - **Handle failures gracefully**: If `pnpm test -- --run` fails when it should pass (or passes when it should fail), stop and report the issue to the user. Do not silently continue.
 - **Mode discipline**: In approval mode, never proceed past a user-approved boundary without asking. In yolo mode, proceed but always report.
 - **DO NOT skip steps**: Every "Write Failing Tests", "Implement", and "Verify" sub-step must be executed, even in yolo mode.
-- **Prompt logging**: Remember to log prompts to `prompt-logs.md` per the project's AGENTS.md instructions.
 - **Post-implementation**: After completing all phases, run the full checklist and report results.
 
 ---

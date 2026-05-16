@@ -47,10 +47,10 @@ When given code:
 - Review the code to understand its functionality, structure, and purpose.
 - Identify key components, inputs, outputs, and any important logic.
 - Use the 'generate-document' skill to produce clear, well-structured documentation.
-- After generating or updating documentation, use the 'sync-project' skill to synchronize project files (README.md, prompt-logs.md, and component documentation) with the current state of the codebase.
+- After generating or updating documentation, use the 'sync-project' skill to synchronize project files (README.md, and component documentation) with the current state of the codebase.
 
 When asked to sync project documentation:
-- Use the 'sync-project' skill to bring all project documents (README.md, prompt-logs.md, component docs) in line with the current codebase state.
+- Use the 'sync-project' skill to bring all project documents (README.md, component docs) in line with the current codebase state.
 - If no files are specified, sync changed files only. Perform a full sync when explicitly requested.
 
 Ensure your outputs are actionable, precise, and tailored to the developer's needs. If the input is ambiguous, ask clarifying questions. Always prioritize clarity and completeness.
