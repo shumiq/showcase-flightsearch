@@ -66,11 +66,14 @@ This project includes specialized skills to help the AI agent work more effectiv
 
 | Skill | Description | Source of Truth |
 |-------|-------------|-----------------|
-| **create-ticket** | Unified ticket creation for bugs, stories, and tasks — determines type, gathers requirements, and creates structured Jira issues | Jira (SCRUM project) |
-| **create-development-plan** | Creates TDD-based development plans from Jira tickets with phased implementation | Jira comment |
-| **implement-ticket** | Executes a development plan from Jira comments using TDD (Red → Green → Refactor) | `./src/components/...` |
-| **generate-document** | Generates comprehensive technical documentation for any component | Confluence (SCRUM space) |
-| **sync-project** | Synchronizes Confluence project documentation with the current state of the codebase | Confluence (SCRUM space) |
+| **create-development-plan** | Creates a detailed TDD-based development plan from a bug or story ticket, including component design, test strategy (unit + Storybook), and step-by-step implementation phases | Jira comment |
+| **create-ticket** | Unified skill for creating Jira tickets of any type (Story, Bug, Task). Determines the appropriate type from the user's description, confirms with the user, then delegates to the specialist agent for requirements gathering, codebase investigation, and ticket creation | Jira (SCRUM project) |
+| **customize-opencode** | Used when editing or creating opencode's own configuration files (.opencode/, opencode.json, etc.) and related settings | Source code |
+| **generate-document** | Generates comprehensive technical documentation for a specified component by investigating the codebase and creating a Confluence page under the SCRUM space's Components page | Confluence (SCRUM space) |
+| **implement-ticket** | Follows a development plan from Jira comments to implement code using TDD (Red → Green → Refactor). Supports yolo mode and approval mode | `./src/components/...` |
+| **start-workflow** | Starts a workflow from `.opencode/workflows/`. If no workflow is specified, prompts the user to choose one | `.opencode/workflows/` |
+| **sync-project** | Synchronizes Confluence project pages (Project overview and component documentation) and local documentation files (AGENTS.md, README.md) with the current state of the codebase | Confluence (SCRUM space) |
+| **verify-changes** | Verifies that a Jira ticket has been fully and correctly implemented by checking coverage, quality, and completeness. Updates ticket status or creates follow-up tickets as needed | Source code |
 
 ## Getting Started
 
