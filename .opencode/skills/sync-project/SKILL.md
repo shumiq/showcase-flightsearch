@@ -15,6 +15,14 @@ Use this skill when the user says things like: "Sync the project", "Update proje
 
 No local files are created — Confluence is the single source of truth for documentation.
 
+## Delegation
+
+Delegate execution to the specialist subagent before playing the skill:
+
+1. Use `Task` tool with `subagent_type: "technical-lead"` to execute the **full workflow** (Steps 1–4).
+2. Pass the user's input and Confluence constants (`spaceId: "65859"`, Project page ID `65986`, Components page ID `98459`) in the `prompt`.
+3. After subagent completes, present the sync summary to the user.
+
 ## Workflow
 
 ### Step 1: Determine Sync Mode

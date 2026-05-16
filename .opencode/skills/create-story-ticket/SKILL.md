@@ -10,6 +10,14 @@ This skill transforms raw, unstructured, or "fuzzy" feature requests into clean,
 
 Use this skill when the user says things like: "I need a new feature", "Create a story for the user profile page", "Let's add dark mode", "Write up a ticket for the export functionality", etc.
 
+## Delegation
+
+Delegate execution to the specialist subagent before playing the skill:
+
+1. Use `Task` tool with `subagent_type: "technical-business-analyst"` to execute the **full workflow** (Steps 1–6).
+2. Pass the user's input and Jira constants (`cloudId: "06873323-7b4f-4662-8589-74ea341fcba6"`, `projectKey: "SCRUM"`) in the `prompt`.
+3. After subagent completes, present the resulting Jira issue key to the user.
+
 ## Workflow
 
 ### Step 1: Trigger & Proactively Prompt the User

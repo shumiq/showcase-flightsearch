@@ -15,6 +15,14 @@ Do NOT create any local files. The Confluence page is the single source of truth
 
 Use this skill when the user says things like: "Document the FlightSearch component", "Generate docs for AirportSelector", "Create technical docs for the search feature", etc.
 
+## Delegation
+
+Delegate execution to the specialist subagent before playing the skill:
+
+1. Use `Task` tool with `subagent_type: "technical-lead"` to execute the **full workflow** (Steps 1–4).
+2. Pass the user's input (component name if specified) and Confluence constants (`spaceId: "65859"`, parent page ID `98459`) in the `prompt`.
+3. After subagent completes, present the Confluence page URL to the user.
+
 ## Workflow
 
 ### Step 1: Trigger & Identify the Component
