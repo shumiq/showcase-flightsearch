@@ -1,15 +1,17 @@
 ---
 name: generate-document
-description: Generates comprehensive technical documentation for a specified component. Investigates the codebase, analyzes the component's props, dependencies, usage patterns, and outputs a structured developer-focused document under ./docs. Also syncs the generated document to the Confluence SCRUM space under the Components page.
+description: Generates comprehensive technical documentation for a specified component. Investigates the codebase, analyzes the component's props, dependencies, usage patterns, and creates a Confluence page under the SCRUM space's Components page.
 ---
 
 # Generate Document Skill
 
 ## Description
 
-This skill generates comprehensive technical documentation for any component in the codebase. When triggered, the agent identifies the specified component, performs deep code investigation, and produces a structured markdown document under `./docs/{component-name}.md`.
+This skill generates comprehensive technical documentation for any component in the codebase. When triggered, the agent identifies the specified component, performs deep code investigation, and creates a Confluence page under the Components page in the SCRUM space.
 
 The document is written for **developers** who want to understand, integrate, or extend the component. It includes API references, usage examples, dependency maps, and implementation notes.
+
+Do NOT create any local files. The Confluence page is the single source of truth.
 
 Use this skill when the user says things like: "Document the FlightSearch component", "Generate docs for AirportSelector", "Create technical docs for the search feature", etc.
 
@@ -41,15 +43,9 @@ Perform a thorough investigation of the target component:
 - Map **dependencies** — what this component depends on (other components, hooks, utilities, external libs).
 - Map **dependents** — what depends on this component (parent components, pages, other features).
 
-### Step 3: Generate the Document
+### Step 3: Generate & Publish to Confluence
 
-Ensure the `./docs/` directory exists (create it if not). Create the file at `./docs/{component-name-in-kebab-case}.md` using the template below.
-
-Fill in every section with accurate information derived from code investigation. Do not leave sections blank — if a section does not apply, write "N/A" or remove it.
-
-### Step 4: Sync to Confluence
-
-After generating the local document, sync it to the Confluence SCRUM space:
+Generate the document using the template below, then publish it directly to Confluence:
 
 1. **Find or create the child page** under the Components page (`https://shumiq.atlassian.net/wiki/spaces/SCRUM/pages/98459/Components`):
    - Use `jira_getPagesInConfluenceSpace` with `spaceId: "65859"`, then filter results where `parentId === "98459"` to find existing child pages.
@@ -62,9 +58,9 @@ After generating the local document, sync it to the Confluence SCRUM space:
 
 4. **Verify**: Confirm the page was created/updated successfully.
 
-### Step 5: Confirm & Summarize
+### Step 4: Confirm & Summarize
 
-Inform the user that the document has been created and synced to Confluence. Provide the file path and Confluence page URL, and briefly summarize:
+Inform the user that the document has been created in Confluence. Provide the Confluence page URL and briefly summarize:
 - The component's primary purpose.
 - How many props it exposes.
 - Whether it's standalone or has dependencies/dependents.
@@ -313,7 +309,6 @@ const [state, setState] = useState<StateType>({
 - **Investigate first, write second:** Always read the actual component code, its tests, stories, and related files before generating documentation. Do not guess or hallucinate prop types, behaviors, or dependencies.
 - **Be comprehensive:** Every section in the template should be filled. If a section truly does not apply, write "N/A" rather than omitting it.
 - **Use actual code:** Code examples in the Usage section must be accurate and compilable. Derive them from actual story files, test files, or the component's own implementation.
-- **Kebab-case filenames:** Always format the output file name in kebab-case (e.g., `./docs/flight-search.md`, `./docs/airport-selector.md`).
 - **Date format:** Always use YYYY-MM-DD for dates.
 - **Developer-focused:** Write for developers who need to integrate, modify, or debug this component. Avoid marketing language; be technical and precise.
 - **Standalone vs dependent:** Clearly indicate whether the component is standalone or intended to be used with other components. Call out required context (parent components, providers, data shapes).

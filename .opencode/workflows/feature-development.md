@@ -19,9 +19,9 @@ Full lifecycle: **Concept → Ticket → Plan → Code → Verify → Document**
 **Agent:** `technical-business-analyst`
 **Skill:** `create-story-ticket` / `create-bug-ticket`
 
-Gather requirements from the user for a new feature or bug fix. Investigate the codebase, ask clarifying questions, and produce a professional ticket in `./stories/` or `./bugs/`.
+Gather requirements from the user for a new feature or bug fix. Investigate the codebase, ask clarifying questions, and create a professional issue in the SCRUM Jira project.
 
-**Output:** Path to the generated ticket file (e.g., `./stories/my-feature.md`).
+**Output:** Jira issue key (e.g., `SCRUM-42`).
 
 ---
 
@@ -29,11 +29,11 @@ Gather requirements from the user for a new feature or bug fix. Investigate the 
 
 **Agent:** `technical-lead`
 **Skill:** `create-development-plan`
-**Input:** Ticket from Step 1
+**Input:** Jira issue key from Step 1
 
-Read the ticket produced in Step 1. Break it into step-by-step implementation phases with test strategy, component design, and sequencing.
+Read the ticket from Jira. Break it into step-by-step implementation phases with test strategy, component design, and sequencing. Post the plan as a comment on the Jira issue.
 
-**Output:** Path to the generated plan file (e.g., `./plans/my-feature.md`).
+**Output:** Jira issue key with plan comment posted.
 
 ---
 
@@ -53,7 +53,7 @@ Execute the development plan precisely. Follow TDD (Red → Green → Refactor) 
 
 **Agent:** `quality-analyst`
 **Skill:** `verify-changes`
-**Input:** Ticket from Step 1, Plan from Step 2, code from Step 3
+**Input:** Jira issue key (with plan comment from Step 2), code from Step 3
 
 Review the implementation against the original ticket. Check coverage, quality, and completeness. Provide a structured report with final verdict.
 

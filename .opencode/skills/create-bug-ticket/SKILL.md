@@ -54,9 +54,16 @@ Use the Jira MCP tool to create the bug issue with these fields:
 1. Call `jira_createJiraIssue` with the structured data.
 2. Move the ticket to the **TODO** column: use `jira_getTransitionsForJiraIssue` to find the "To Do" transition ID, then `jira_transitionJiraIssue` to move it.
 3. If the user mentioned a specific assignee, use `jira_lookupJiraAccountId` to find their account ID and update via `jira_editJiraIssue`.
+4. **Add to current sprint:**
+   - Query for the active sprint: `jira_searchJiraIssuesUsingJql` with `project = SCRUM AND sprint in openSprints() ORDER BY created ASC` (limit 1). Extract the sprint ID from the `customfield_10020` field of any returned issue, or use `jira_getTeamworkGraphContext` to find active sprints.
+   - If an active sprint is found, use `jira_editJiraIssue` with `{"customfield_10020": [sprintId]}` to add the issue to that sprint.
+   - If no active sprint exists, inform the user: *"No active sprint found. The ticket has been created in To Do but was not added to a sprint. Please create a sprint and assign this ticket manually."*
+   - The sprint field is `customfield_10020` (type: array of numbers — pass the sprint ID as a single-element array).
 
 ### Step 6: Confirm & Summarize
 Inform the user that the ticket has been created. Provide the Jira issue key (e.g., `SCRUM-42`). Briefly mention any interesting technical clues you found during your investigation that were added to the description.
+
+**Do NOT create any local files.** The Jira issue is the single source of truth.
 
 ---
 

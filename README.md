@@ -35,15 +35,14 @@ The AI agent built a fully functional **FlightSearch** component consisting of:
 
 This project includes specialized skills to help the AI agent work more effectively:
 
-| Skill | Description | Output |
-|-------|-------------|--------|
-| **create-bug-ticket** | Transforms fuzzy bug descriptions into structured bug tickets with investigation findings | `./bugs/{title}.md` |
-| **create-story-ticket** | Converts feature requests into professional user story tickets with acceptance criteria | `./stories/{title}.md` |
-| **create-development-plan** | Creates TDD-based development plans from bug or story tickets with phased implementation | `./plans/{title}-plan.md` |
-| **implement-ticket** | Executes a development plan from ./plans using TDD (Red → Green → Refactor) with yolo or approval mode | `./src/components/...` |
-| **generate-document** | Generates comprehensive technical documentation for any component | `./docs/{component}.md` |
-| **sync-project** | Synchronizes project files (README.md, and component documentation) with the current state of the codebase | README.md, ./docs/ |
-| **manage-github-project** | Creates, updates, moves, archives, deletes, and bi-directionally syncs project board items with local tickets | GitHub project board, ./bugs/, ./stories/ |
+| Skill | Description | Source of Truth |
+|-------|-------------|-----------------|
+| **create-bug-ticket** | Transforms fuzzy bug descriptions into structured Jira bug tickets with investigation findings | Jira (SCRUM project) |
+| **create-story-ticket** | Converts feature requests into professional Jira story tickets with acceptance criteria | Jira (SCRUM project) |
+| **create-development-plan** | Creates TDD-based development plans from Jira tickets with phased implementation | Jira comment |
+| **implement-ticket** | Executes a development plan from Jira comments using TDD (Red → Green → Refactor) | `./src/components/...` |
+| **generate-document** | Generates comprehensive technical documentation for any component | Confluence (SCRUM space) |
+| **sync-project** | Synchronizes Confluence project documentation with the current state of the codebase | Confluence (SCRUM space) |
 
 ## Getting Started
 
@@ -70,10 +69,6 @@ showcase/
 │   ├── FlightSearch.tsx           # Top-level search form
 │   ├── AirportSelector.tsx        # Airport dropdown
 │   └── DatesSelector.tsx          # Calendar date picker
-├── .agents/skills/                # AI agent skill definitions
-├── bugs/                          # Bug tracking tickets
-├── stories/                       # User story tickets
-├── plans/                         # Development plans
-├── docs/                          # Generated documentation
+├── .opencode/skills/              # AI agent skill definitions
 └── .storybook/                    # Storybook configuration
 ```

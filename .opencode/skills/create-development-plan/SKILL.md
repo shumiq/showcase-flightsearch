@@ -39,11 +39,13 @@ Perform code investigation to understand the current state:
 
 ### Step 4: Generate the Development Plan
 
-Create the plan at `./plans/{jira-key}-plan.md` (e.g., `SCRUM-42-plan.md`). Use the template below. The plan should be:
+Create the development plan using the template below. The plan should be:
 - **TDD-focused**: Every implementation step is preceded by its corresponding test
 - **Technical**: Use precise terminology (props, interfaces, hooks, mocks, render cycles, etc.)
 - **Actionable**: Each step should be concrete enough that a developer can execute it without ambiguity
 - **Comprehensive**: Cover unit tests, Storybook stories, component implementation, and integration
+
+Do NOT create any local files. The plan will be posted as a Jira comment in the next step.
 
 ### Step 5: Post Plan as Jira Comment
 
@@ -53,7 +55,7 @@ Create the plan at `./plans/{jira-key}-plan.md` (e.g., `SCRUM-42-plan.md`). Use 
 
 ### Step 6: Confirm & Summarize
 
-Inform the user that the plan has been created. Provide the file path and briefly summarize the key phases.
+Inform the user that the plan has been created as a comment on the Jira issue. Provide the Jira issue key and briefly summarize the key phases.
 
 ---
 
@@ -284,7 +286,7 @@ Run: `pnpm test -- --run` — confirm **all** tests pass (new + existing).
 - **Storybook coverage**: Stories must cover all component states (default, disabled, empty, loading, error, interactive).
 - **Be specific**: Use exact file paths, function names, prop types, and assertion expectations.
 - **Follow existing patterns**: Reference the actual test and story patterns found during code investigation.
-- **Plan filename format**: Plan files go in `./plans/{jira-key}-plan.md` (e.g., `./plans/SCRUM-42-plan.md`).
+- **Plan location**: Plans are posted as Jira comments prefixed with `### 📋 Development Plan`.
 - **Date format**: Always use YYYY-MM-DD.
 - **Adapt to ticket type**:
   - **Bug tickets**: Focus on regression tests first, then the fix. Include a test that reproduces the bug before fixing.
