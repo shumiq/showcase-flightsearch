@@ -11,6 +11,14 @@ This skill reads a development plan from a Jira issue's comments (looks for `###
 
 Use this skill when the user says things like: "implement the plan for farecard", "start working on the passenger selector plan", "execute the development plan", etc.
 
+## Delegation
+
+Delegate execution to the specialist subagent before playing the skill:
+
+1. Use `Task` tool with `subagent_type: "software-developer"` to execute the **full workflow** (Steps 1–8).
+2. Pass the user's input (issue key if provided) and Jira constants (`cloudId: "06873323-7b4f-4662-8589-74ea341fcba6"`) in the `prompt`.
+3. After subagent completes, present the implementation summary to the user.
+
 ## Workflow
 
 ### Step 1: Select the Ticket

@@ -10,6 +10,14 @@ This skill transforms raw, unstructured, or "fuzzy" bug reports into clean, acti
 
 Use this skill when the user says things like: "I found a bug", "The login is broken", "Create a ticket for the layout issue", etc.
 
+## Delegation
+
+Delegate execution to the specialist subagent before playing the skill:
+
+1. Use `Task` tool with `subagent_type: "technical-business-analyst"` to execute the **full workflow** (Steps 1–6).
+2. Pass the user's input and Jira constants (`cloudId: "06873323-7b4f-4662-8589-74ea341fcba6"`, `projectKey: "SCRUM"`) in the `prompt`.
+3. After subagent completes, present the resulting Jira issue key to the user.
+
 ## Workflow
 
 ### Step 1: Trigger & Proactively Prompt the User

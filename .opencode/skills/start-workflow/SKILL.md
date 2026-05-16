@@ -11,6 +11,14 @@ Reads available workflow files from `.opencode/workflows/` and either starts the
 
 Use this skill when the user says things like: "start workflow", "run the workflow", "start the feature development workflow", "kick off the pipeline", "begin the process".
 
+## Delegation
+
+Delegate execution to the specialist subagent before playing the skill:
+
+1. Use `Task` tool with `subagent_type: "technical-business-analyst"` to execute the **full workflow** (Steps 1–5).
+2. Pass the user's input and the path to `.opencode/workflows/` in the `prompt`.
+3. After subagent completes, present the workflow summary to the user.
+
 ## Workflow
 
 ### Step 1: Identify the Workflow
