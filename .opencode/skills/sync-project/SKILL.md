@@ -54,7 +54,10 @@ When running in default mode, only process component files that have been modifi
 
 4. **Update the Project page on Confluence:**
    - Use `jira_getConfluencePage` with `pageId: "65986"` to get current Project page content.
-   - Generate updated content reflecting the current project state and update using `jira_updateConfluencePage`.
+   - Generate updated content reflecting the current project state.
+   - Include sections for: project overview, tech stack, components built, AI agents (table with agent name, description, invocation), development workflow (steps), AI skills (table with skill name, description, source of truth), and project structure.
+   - The agent descriptions and workflow table should match what is in `.opencode/agents/*.md` (definitions) and `.opencode/workflows/feature-development.md` (step descriptions).
+   - Update using `jira_updateConfluencePage`.
 
 ### Step 3: Full Scan Mode (Explicit Request)
 
@@ -68,6 +71,7 @@ When user explicitly requests full sync and confirms:
 2. **Update the Project page on Confluence:**
    - Read current Confluence Project page content.
    - Compare with actual project state and update as needed.
+   - Include sections for: project overview, tech stack, components built, AI agents table, development workflow, AI skills table, and project structure.
 
 ### Step 4: Summary
 

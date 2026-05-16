@@ -31,6 +31,35 @@ The AI agent built a fully functional **FlightSearch** component consisting of:
 - Storybook
 - ESLint
 
+## AI Agents
+
+This project defines specialized agents that handle different phases of development:
+
+| Agent | Description | Invocation |
+|-------|-------------|------------|
+| **technical-business-analyst** | Gathers requirements, performs early technical analysis, creates story/bug tickets | `Task` tool with `subagent_type: "technical-business-analyst"` |
+| **technical-lead** | Breaks down tickets into dev plans, generates documentation, syncs project docs | `Task` tool with `subagent_type: "technical-lead"` |
+| **software-developer** | Executes dev plans precisely using TDD (Red → Green → Refactor) | `Task` tool with `subagent_type: "software-developer"` |
+| **quality-analyst** | Reviews code against ticket requirements, runs automated verification | `Task` tool with `subagent_type: "quality-analyst"` |
+
+## Development Workflow
+
+The **feature-development** workflow orchestrates agents through a full lifecycle:
+
+```
+Concept → Ticket → Plan → Code → Verify → Document
+```
+
+| Step | Agent | Description |
+|------|-------|-------------|
+| 1 | `technical-business-analyst` | Create a Jira issue from requirements |
+| 2 | `technical-lead` | Break ticket into step-by-step implementation phases |
+| 3 | `software-developer` | Execute plan using TDD |
+| 4 | `quality-analyst` | Review implementation against requirements |
+| 5 | `technical-lead` | Sync documentation to reflect changes |
+
+Run with: `opencode run "Run the feature-development workflow: <feature description>"`
+
 ## Available AI Agent Skills
 
 This project includes specialized skills to help the AI agent work more effectively:
