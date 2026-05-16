@@ -31,6 +31,7 @@ Examples of what to ask:
 1. **Behavioral gaps:** "Does it show an error message, or just do nothing at all?"
 2. **Reproduction steps:** "Did this happen right after you logged in, or were you already on the page?"
 3. **Environment (only if necessary):** "Are you testing this on desktop or mobile? Which browser?" *(Note: Default to Desktop/Chrome if it's a standard web project and the user doesn't know).*
+4. **Estimation (Fibonacci):** "What size do you estimate this is? Pick a Fibonacci number: 1, 2, 3, 5, 8, 13, or 21?"
 
 ### Step 4: Rewrite & Structure
 Once the user answers your prompts, synthesize everything into professional terminology:
@@ -49,9 +50,9 @@ Use the Jira MCP tool to create the bug issue with these fields:
 | `issueTypeName` | `Bug` |
 | `summary` | Actionable title (e.g., "Settings Page Submit Button Unresponsive") |
 | `description` | Full markdown description with sections from the template below |
-| `additional_fields` | `{"priority": {"name": "..."}, "labels": ["..."]}` |
+| `additional_fields` | `{"priority": {"name": "..."}, "labels": ["..."], "customfield_10016": <number>}` |
 
-1. Call `jira_createJiraIssue` with the structured data.
+1. Call `jira_createJiraIssue` with the structured data — include `customfield_10016` in `additional_fields` with the Fibonacci value the user chose.
 2. Move the ticket to the **TODO** column: use `jira_getTransitionsForJiraIssue` to find the "To Do" transition ID, then `jira_transitionJiraIssue` to move it.
 3. If the user mentioned a specific assignee, use `jira_lookupJiraAccountId` to find their account ID and update via `jira_editJiraIssue`.
 4. **Add to current sprint:**
@@ -105,6 +106,11 @@ When creating the Jira issue, use `contentFormat: "markdown"` and structure the 
 
 ---
 
+## Estimation
+**Story Points:** {Fibonacci number: 1, 2, 3, 5, 8, 13, or 21}
+
+---
+
 ## Additional Context
 {Any screenshots, logs, or user notes. "N/A" if none.}
 
@@ -128,6 +134,9 @@ When creating the Jira issue, use `contentFormat: "markdown"` and structure the 
 | Trivial | Low |
 
 Pass priority via `additional_fields: {"priority": {"name": "High"}}`.
+
+### Estimation (Fibonacci)
+During Step 3, ask the user to pick a Fibonacci number (1, 2, 3, 5, 8, 13, 21) for the story point estimate. Include this value in `customfield_10016` (`customfield_10016` is the "Story point estimate" field in Jira). The value is also added to the `## Estimation` section in the description.
 
 ### Assignee
 If the user specified a person, use `jira_lookupJiraAccountId` to get their account ID, then update the issue via `jira_editJiraIssue` with `{"assignee": {"accountId": "..."}}`.
