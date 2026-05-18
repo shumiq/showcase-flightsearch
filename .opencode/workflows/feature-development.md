@@ -17,9 +17,9 @@ Full lifecycle: **Concept → Ticket → Plan → Code → Verify → Document**
 ## Step 1: Create Ticket
 
 **Agent:** `technical-lead` (triage) → delegates to `technical-business-analyst` (story/bug) or handles directly (task)
-**Skill:** `create-ticket`
+**Command:** `/create-ticket`
 
-Gather requirements from the user for a new feature, bug fix, or maintenance task. Investigate the codebase, ask clarifying questions, and create a professional issue in the SCRUM Jira project.
+Run `/create-ticket` with the feature description to gather requirements, investigate the codebase, ask clarifying questions, and create a professional issue in the SCRUM Jira project.
 
 **Output:** Jira issue key (e.g., `SCRUM-42`).
 
@@ -28,10 +28,10 @@ Gather requirements from the user for a new feature, bug fix, or maintenance tas
 ## Step 2: Create Development Plan
 
 **Agent:** `technical-lead`
-**Skill:** `create-development-plan`
+**Command:** `/create-development-plan`
 **Input:** Jira issue key from Step 1
 
-Read the ticket from Jira. Break it into step-by-step implementation phases with test strategy, component design, and sequencing. Post the plan as a comment on the Jira issue.
+Run `/create-development-plan SCRUM-NNN` with the issue key. The command reads the ticket, breaks it into step-by-step implementation phases with test strategy, component design, and sequencing, and posts the plan as a comment on the Jira issue.
 
 **Output:** Jira issue key with plan comment posted.
 
@@ -40,10 +40,10 @@ Read the ticket from Jira. Break it into step-by-step implementation phases with
 ## Step 3: Implement
 
 **Agent:** `software-developer`
-**Skill:** `implement-ticket`
+**Command:** `/implement-ticket`
 **Input:** Plan from Step 2
 
-Execute the development plan precisely. Follow TDD (Red → Green → Refactor) for each phase. Do not deviate from the plan.
+Run `/implement-ticket SCRUM-NNN` with the issue key. The command reads the development plan from Jira comments and executes it precisely using TDD (Red → Green → Refactor) for each phase.
 
 **Output:** Confirmation of implemented changes and any issues encountered.
 
@@ -52,10 +52,10 @@ Execute the development plan precisely. Follow TDD (Red → Green → Refactor) 
 ## Step 4: Verify
 
 **Agent:** `quality-analyst`
-**Skill:** `verify-changes`
+**Command:** `/verify-changes`
 **Input:** Jira issue key (with plan comment from Step 2), code from Step 3
 
-Review the implementation against the original ticket. Check coverage, quality, and completeness. Provide a structured report with final verdict.
+Run `/verify-changes SCRUM-NNN` with the issue key. The command reviews the implementation against the original ticket, checking coverage, quality, and completeness, and provides a structured report with final verdict.
 
 **Feedback loop:**
 - If follow-up story/bug tickets are needed → go back to **Step 2** (create a new plan)
@@ -67,9 +67,9 @@ Review the implementation against the original ticket. Check coverage, quality, 
 ## Step 5: Sync Documentation
 
 **Agent:** `technical-lead`
-**Skill:** `sync-project`
+**Command:** `/sync-project`
 
-Update all project documents (README.md, component docs) to reflect the new changes.
+Run `/sync-project` to update all project documents (README.md, component docs) to reflect the new changes.
 
 ---
 
