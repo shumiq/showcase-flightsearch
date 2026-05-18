@@ -38,7 +38,7 @@ This project defines specialized agents that handle different phases of developm
 | Agent | Description | Invocation |
 |-------|-------------|------------|
 | **technical-business-analyst** | Gathers requirements, performs early technical analysis, creates story/bug tickets | `Task` tool with `subagent_type: "technical-business-analyst"` |
-| **technical-lead** | Breaks down tickets into dev plans, generates documentation, syncs project docs | `Task` tool with `subagent_type: "technical-lead"` |
+| **technical-lead** | Determines ticket types, creates task tickets, breaks down tickets into dev plans, generates documentation, syncs project docs | `Task` tool with `subagent_type: "technical-lead"` |
 | **software-developer** | Executes dev plans precisely using TDD (Red → Green → Refactor) | `Task` tool with `subagent_type: "software-developer"` |
 | **quality-analyst** | Reviews code against ticket requirements, runs automated verification | `Task` tool with `subagent_type: "quality-analyst"` |
 
@@ -50,13 +50,13 @@ The **feature-development** workflow orchestrates agents through a full lifecycl
 Concept → Ticket → Plan → Code → Verify → Document
 ```
 
-| Step | Agent | Description |
-|------|-------|-------------|
-| 1 | `technical-business-analyst` | Create a Jira issue from requirements |
-| 2 | `technical-lead` | Break ticket into step-by-step implementation phases |
-| 3 | `software-developer` | Execute plan using TDD |
-| 4 | `quality-analyst` | Review implementation against requirements |
-| 5 | `technical-lead` | Sync documentation to reflect changes |
+| Step | Agent | Skill | Description |
+|------|-------|-------|-------------|
+| 1 | `technical-lead` (triage) → delegates to `technical-business-analyst` (story/bug) or handles directly (task) | `create-ticket` | Create a Jira issue from requirements |
+| 2 | `technical-lead` | `create-development-plan` | Break ticket into step-by-step implementation phases |
+| 3 | `software-developer` | `implement-ticket` | Execute plan using TDD (Red → Green → Refactor) |
+| 4 | `quality-analyst` | `verify-changes` | Review implementation against requirements |
+| 5 | `technical-lead` | `sync-project` | Sync documentation to reflect changes |
 
 Run with: `opencode run "Run the feature-development workflow: <feature description>"`
 
@@ -68,12 +68,34 @@ This project includes specialized skills to help the AI agent work more effectiv
 |-------|-------------|-----------------|
 | **create-development-plan** | Creates a detailed TDD-based development plan from a bug or story ticket, including component design, test strategy (unit + Storybook), and step-by-step implementation phases | Jira comment |
 | **create-ticket** | Unified skill for creating Jira tickets of any type (Story, Bug, Task). Determines the appropriate type from the user's description, confirms with the user, then delegates to the specialist agent for requirements gathering, codebase investigation, and ticket creation | Jira (SCRUM project) |
-| **customize-opencode** | Used when editing or creating opencode's own configuration files (.opencode/, opencode.json, etc.) and related settings | Source code |
-| **generate-document** | Generates comprehensive technical documentation for a specified component by investigating the codebase and creating a Confluence page under the SCRUM space's Components page | Confluence (SCRUM space) |
-| **implement-ticket** | Follows a development plan from Jira comments to implement code using TDD (Red → Green → Refactor). Supports yolo mode and approval mode | `./src/components/...` |
-| **start-workflow** | Starts a workflow from `.opencode/workflows/`. If no workflow is specified, prompts the user to choose one | `.opencode/workflows/` |
-| **sync-project** | Synchronizes Confluence project pages (Project overview and component documentation) and local documentation files (AGENTS.md, README.md) with the current state of the codebase | Confluence (SCRUM space) |
+| **customize-opencode** | Use ONLY when the user is editing or creating opencode's own configuration: opencode.json, opencode.jsonc, files under .opencode/, or files under ~/.config/opencode/. Also use when creating or fixing opencode agents, subagents, skills, plugins, MCP servers, or permission rules. Do not use for the user's own application code, or for any project that is not configuring opencode itself. | Source code |
+| **generate-document** | Generates comprehensive technical documentation for a specified component. Investigates the codebase, analyzes the component's props, dependencies, usage patterns, and creates a Confluence page under the SCRUM space's Components page | Confluence (SCRUM space) |
+| **implement-ticket** | Follows a development plan from Jira comments to implement code using TDD (Red → Green → Refactor). Supports yolo mode (auto-execute) and approval mode (approve each step) | Source code |
+| **start-workflow** | Starts a workflow from `.opencode/workflows`. If no workflow is specified, prompts the user to choose one | `.opencode/workflows/` |
+| **sync-project** | Synchronizes Confluence project pages (Project overview and component documentation), available commands, skills, agents, workflows, and local documentation files (AGENTS.md, README.md) with the current state of the codebase. By default syncs changed components only; supports full sync when explicitly requested | Confluence (SCRUM space) |
 | **verify-changes** | Verifies that a Jira ticket has been fully and correctly implemented by checking coverage, quality, and completeness. Updates ticket status or creates follow-up tickets as needed | Source code |
+
+## Available Commands
+
+OpenCode commands that can be invoked directly from the chat:
+
+| Command | Agent | Description |
+|---------|-------|-------------|
+| `/create-development-plan` | `technical-lead` | Create a development plan from a Jira ticket |
+| `/create-ticket` | `technical-lead` | Create a Jira ticket (Story/Bug/Task) |
+| `/generate-document` | `technical-lead` | Generate technical documentation for a component |
+| `/implement-ticket` | `software-developer` | Implement a ticket following its development plan |
+| `/start-workflow` | `technical-lead` | Start a workflow from `.opencode/workflows` |
+| `/sync-project` | `technical-lead` | Sync project documentation with codebase state |
+| `/verify-changes` | `quality-analyst` | Verify a ticket implementation against requirements |
+
+## MCP Servers
+
+Model Context Protocol servers used for external integrations:
+
+| Server | Type | URL |
+|--------|------|-----|
+| `jira` | remote | `https://mcp.atlassian.com/v1/mcp/authv2` |
 
 ## Getting Started
 
@@ -88,9 +110,8 @@ pnpm storybook
 |---------|-------------|
 | `pnpm storybook` | Start Storybook development server (port 6006) |
 | `pnpm build-storybook` | Build Storybook for production |
-| `pnpm test` | Run Vitest tests (interactive mode) |
-| `pnpm test -- --run` | Run Vitest tests (CI mode) |
-| `pnpm lint` | Run ESLint |
+| `pnpm test` | Run Vitest tests |
+| `pnpm lint` | Run ESLint across the project |
 
 ## Project Structure
 
