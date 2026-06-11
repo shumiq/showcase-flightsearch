@@ -34,6 +34,7 @@ Use `jira_getJiraIssue` with `cloudId: "06873323-7b4f-4662-8589-74ea341fcba6"` a
 - Acceptance criteria (from the description)
 - Investigation findings and technical context
 - Any constraints noted in the description or comments
+- Any design reference links in the Technical Notes (these are the source of truth for visual appearance)
 
 ### Step 3: Investigate the Codebase
 
@@ -44,6 +45,7 @@ Perform code investigation to understand the current state:
 - Check existing Storybook files (`.stories.tsx`) for story patterns
 - Identify shared types, utilities, or hooks that will be reused
 - Note any existing test mocks or setup patterns (e.g., `vi.mock`, `vitest.setup.ts`)
+- If the ticket has a design reference link, visit the URL using `chrome-devtools` to crosscheck layout, styling, colors, typography, spacing, and interactions against what the ticket describes. Note any discrepancies or additional details needed for the plan.
 
 ### Step 4: Generate the Development Plan
 
@@ -301,3 +303,4 @@ Run: `pnpm test -- --run` — confirm **all** tests pass (new + existing).
   - **Story tickets**: Focus on feature tests matching acceptance criteria. Each AC should map to at least one test.
 - **No filler**: Every phase should have a clear purpose. Skip phases that are not needed.
 - **Include run commands**: Always specify the exact commands to run for verification.
+- **Reference links are source of truth**: If the ticket contains a design reference URL, crosscheck the plan against it. Visit the URL with `chrome-devtools` and ensure every visual detail (colors, typography, spacing, interactions) is accounted for in the plan phases.

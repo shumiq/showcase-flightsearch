@@ -56,6 +56,8 @@ Prompt the user to choose one of two modes:
 
 ### Step 6: Execute the Plan
 
+**Before starting:** If the ticket has a design reference link, visit the URL using `chrome-devtools` to crosscheck the visual appearance live. Refer back to this link throughout implementation as the source of truth for styling — do not rely solely on the ticket description or memory.
+
 For each phase in the plan, execute its sub-steps in order, following the TDD cycle:
 
 #### For "Write Failing Tests" sub-steps:
@@ -67,9 +69,10 @@ For each phase in the plan, execute its sub-steps in order, following the TDD cy
 
 #### For "Implement Minimum Code" sub-steps:
 1. Report: *"Phase X: Implementing [component/file]"*
-2. Implement the component/code as described in the plan
-3. Run `pnpm test -- --run` and confirm tests pass (Green)
-4. Report the result
+2. Crosscheck against the design reference link (if any) — re-inspect the page with `chrome-devtools` to verify colors, typography, spacing, and layout details match.
+3. Implement the component/code as described in the plan
+4. Run `pnpm test -- --run` and confirm tests pass (Green)
+5. Report the result
 
 #### For "Verify & Refactor" sub-steps:
 1. Report: *"Phase X: Verifying and refactoring"*
@@ -144,6 +147,7 @@ Each plan follows this structure:
 - **Handle failures gracefully**: If `pnpm test -- --run` fails when it should pass (or passes when it should fail), stop and report the issue to the user. Do not silently continue.
 - **Mode discipline**: In approval mode, never proceed past a user-approved boundary without asking. In yolo mode, proceed but always report.
 - **DO NOT skip steps**: Every "Write Failing Tests", "Implement", and "Verify" sub-step must be executed, even in yolo mode.
+- **Reference links are source of truth**: If the ticket has a design reference URL, visit it with `chrome-devtools` before implementing and crosscheck your output against it. Never approximate visual values — inspect the reference to get exact colors, spacing, typography, and interaction details.
 - **Post-implementation**: After completing all phases, run the full checklist and report results.
 
 ---

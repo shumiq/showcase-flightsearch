@@ -54,6 +54,7 @@ Conduct thorough codebase investigation to verify the ticket is properly address
 - Map each Acceptance Criteria to the code and verify it's met
 - Map each Requirement to the code and verify it's implemented
 - Check scope boundaries (in scope vs out of scope)
+- If the ticket has a design reference link, visit it with `chrome-devtools` and crosscheck the implementation against it — verify colors, typography, spacing, borders, shadows, hover/focus states, transitions, layout, and responsive behavior all match the source of truth.
 
 ### Step 4: Quality Audit
 
@@ -62,6 +63,7 @@ Evaluate the implementation against these quality dimensions:
 | Dimension | What to Check |
 |-----------|---------------|
 | **Coverage** | All acceptance criteria/requirements/bug fixes are addressed. No missing pieces. |
+| **Visual Accuracy** | Implementation matches the design reference link (if one exists). Colors, typography, spacing, borders, shadows, interactions, and responsive behavior are verified against the source of truth using `chrome-devtools`. |
 | **Test Coverage** | Unit tests exist for new/modified code. Tests cover happy paths, edge cases, and error states. Tests actually pass (`pnpm test -- --run`). |
 | **Production Readiness** | No console.logs, debuggers, or TODO comments left in. Error states are handled. Loading states are handled (if applicable). Edge cases are covered (empty data, API failures, boundary values). |
 | **Coding Standards** | Follows existing project conventions (React 19, TypeScript, Tailwind v4, no external UI library). Uses existing patterns and utilities. Consistent naming. |
@@ -112,6 +114,7 @@ Based on the investigation and quality audit, determine one of these outcomes:
 |-----------|--------|
 | Coverage | ✅ All requirements/AC covered |
 | Test Coverage | ✅ All tests passing |
+| Visual Accuracy | ✅ Matches design reference |
 | Production Readiness | ✅ Clean |
 | Coding Standards | ✅ Follows conventions |
 | Clean Code | ✅ Clean |
@@ -174,6 +177,7 @@ Present a comprehensive summary to the user with:
 |-----------|--------|---------|
 | Coverage | ✅/⚠️/❌ | {summary} |
 | Test Coverage | ✅/⚠️/❌ | {N tests, N passing} |
+| Visual Accuracy | ✅/⚠️/❌ | {findings} |
 | Production Readiness | ✅/⚠️/❌ | {findings} |
 | Coding Standards | ✅/⚠️/❌ | {findings} |
 | Clean Code | ✅/⚠️/❌ | {findings} |
@@ -203,3 +207,4 @@ Present a comprehensive summary to the user with:
 - **Date format:** Always use YYYY-MM-DD.
 - **Prompt logging:** Remember to log prompts per AGENTS.md instructions.
 - **Respect existing patterns:** Use the same format as existing tickets and documentation.
+- **Reference links are source of truth:** If the ticket has a design reference URL, crosscheck the implementation against it with `chrome-devtools`. Verify that colors, typography, spacing, interactions, and responsive behavior all match. Flag any discrepancies as verification failures.

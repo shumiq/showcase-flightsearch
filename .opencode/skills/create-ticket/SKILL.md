@@ -81,7 +81,7 @@ Ask 2–4 questions:
 2. **Scope boundaries:** "Should this include connected functionality too, or just the core feature?"
 3. **Edge cases:** "What should happen if the user has no data?" or "What if the API is slow or fails?"
 4. **Vague requirements:** "You mentioned 'fast loading' — do you have a target in mind?"
-5. **Design/UX:** "Do you have a mockup, or should we follow existing patterns?"
+5. **Design/UX:** "Do you have a mockup, or should we follow existing patterns?" If the user provides a URL (e.g., "make it like this link"), treat the link as the **source of truth**. Use `chrome-devtools` tools (navigate to the URL, take snapshots, inspect elements, examine computed styles) to analyze the reference design. **Describe styling in exhaustive detail** — capture colors (hex/rgb), typography (font family, size, weight, line-height), spacing (margin, padding, gaps), border radius, shadows, hover/focus/active states, transitions, layout (flex/grid, alignment), responsive breakpoints, and micro-interactions. The description must be thorough enough for a developer to reproduce the exact visual appearance without ever seeing a screenshot.
 6. **Estimation (Fibonacci):** "What size do you estimate this is? Pick a Fibonacci number: 1, 2, 3, 5, 8, 13, or 21?"
 
 **For Bug:**
@@ -110,11 +110,13 @@ Use `glob` and `grep` tools to locate relevant files. Document findings concisel
 - Search for files matching the feature terms
 - Look for existing components, hooks, utilities that can be extended
 - Identify related files, existing patterns, and similar features to reference
+- If the user provided a reference URL, treat it as the **source of truth**. Use `chrome-devtools` tools to inspect the page — take snapshots, examine layout, styling (colors, typography, spacing, border radius, shadows, transitions), interactions (hover, focus, click, animations), and responsive behavior. Document every style detail exhaustively in the Technical Notes under a **Design Reference** section. Assume the developer has no visual reference beyond your description.
 
 **For Bugs:**
 - Search for files matching the fuzzy terms (button, page, API, etc.)
 - Read suspected components — check for missing error handling, logic issues
 - Formulate a technical hypothesis
+- If the user provided a URL showing the bug, use `chrome-devtools` tools to navigate to the page, inspect console errors, network requests, and element state. Capture relevant screenshots and console logs as evidence in the ticket's Investigation Findings.
 
 **For Tasks:**
 - Dependency updates: Check `package.json`, lock files, config files
@@ -246,6 +248,18 @@ Inform the user that the ticket has been created. Provide the Jira issue key (e.
 ### Open Questions
 - {Any technical unknowns}
 
+### Design Reference
+*Delete this section if no reference URL was provided.*
+
+- **Source URL:** `{link}`
+- **Layout:** {grid/flex, alignment, responsive behavior}
+- **Colors:** {hex values for backgrounds, text, borders, accents, hover/active states}
+- **Typography:** {font family, sizes, weights, line heights}
+- **Spacing & Sizing:** {padding, margin, gaps, component dimensions}
+- **Borders & Shadows:** {border radius, border styles, box-shadow values}
+- **Interactive States:** {hover, focus, active, disabled, transitions, animations}
+- **Responsive Breakpoints:** {breakpoint widths, layout changes at each breakpoint}
+
 ---
 
 ## Estimation
@@ -356,6 +370,7 @@ Inform the user that the ticket has been created. Provide the Jira issue key (e.
 - **Jira keys:** After creation, note the Jira issue key (e.g., `SCRUM-42`) — used by downstream skills.
 - **Do not hallucinate:** If code investigation yields no results, state "No obvious technical clues found during initial scan."
 - **Given/When/Then format:** All story acceptance criteria must follow BDD format.
+- **Reference links are source of truth:** When a user provides a reference URL, treat it as the definitive design specification. Crosscheck all plan, implementation, and verification steps against this link. Never approximate or assume — always inspect the actual page with `chrome-devtools`.
 - **Fibonacci estimation:** Use Fibonacci numbers (1, 2, 3, 5, 8, 13, 21) for stories and bugs only. Base estimate on codebase complexity.
 - **Keep tasks simple:** Task tickets are operational/maintenance work. Don't over-engineer them. Be specific, note risks, include minimal Definition of Done. No Fibonacci estimation needed.
 - **Date format:** Always use YYYY-MM-DD.
